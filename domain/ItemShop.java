@@ -26,11 +26,31 @@ public class ItemShop {
     private final List<Item> allItems;  // Reference for refreshing the shop
     private List<Item> currentStock;    // Items for sale
     
-    public ItemShop(RandomNumGenerator rng) {
-        
+    public ItemShop(RandomNumGenerator rng, List<Item> allItems) {
+        this.rng = rng;
+		this.allItems = allItems;
+		refreshShop(); // initial roll
     }
     
-    
+    private Item getWeightedRandomItem(List<Item> pool) {
+		int totalWeight = 0;
+
+		for (Item item : pool) {
+			totalWeight += item.getWeight();
+		}
+
+		int roll = rng.nextInt(totalWeight);
+
+		int cumulative = 0;
+		for (Item item : pool) {
+			cumulative += item.getWeight();
+			if (roll < cumulative) {
+				return item;
+			}
+		}
+
+		throw new IllegalStateException("Should never reach here");
+	}
     
     /**
      * Refreshes the shop's inventory.
@@ -38,13 +58,52 @@ public class ItemShop {
      * Call every time the debt requirement is met.
      */
     public void refreshShop() {
-        // DEFINE
+        currentStock = new ArrayList<>();
+		List<Item> pool = new ArrayList<>(allItems);
+		
+		for (int i = 0; i < INVENTORY_CAP && !pool.isEmpty(); i++) {
+			Item selected = getWeightedRandomItem(pool);
+			currentStock.add(selected);
+			pool.remove(selected);
+		}
     }
     
     /**
-     * Checks whether 
+     * Checks whether item exists in the shop.
+	 * Then checks if the player can afford the item.
+	 * Deducts the required amount of money.
+	 * Adds the item to the player's inventory.
+	 * Removes the item from the shop
      */
-    public void purchaseItem() {
-        // DEFINE
-    }
+    public boolean purchaseItem(Player player, int itemIndex) {
+		if (itemIndex < 0 || itemIndex >= currentStock.size()) {
+			return false;
+		}
+
+		Item item = currentStock.get(itemIndex);
+
+		if (player.getMoney() < item.getCost()) {
+			return false;
+		}
+
+		player.spendMoney(item.getCost());
+		player.addItem(item);
+
+		currentStock.remove(itemIndex);
+
+		return true;
+	}
+	
+	public List<Item> getCurrentStock() {
+		return currentStock;
+	}
+	
+	public boolean reroll(Player player, int cost) {
+		if (player.getMoney() < cost) return false;
+
+		player.spendMoney(cost);
+		refreshShop();
+		return true;
+	}
+	
 }

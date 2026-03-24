@@ -15,12 +15,14 @@ public abstract class Item {
     protected final String name; // Name of the item (display to user).
     protected final String description; // What the item is (display to user).
     protected final int cost; // How much the item costs in the shop.
+	protected final int weight; // How rare the item is
 	
-    public Item(int itemID, String name, String description, int cost) {
+    public Item(int itemID, String name, String description, int cost, int weight) {
         this.itemID = itemID;
         this.name = name;
         this.description = description;
         this.cost = cost;
+		this.weight = weight;
     }
     
     // -- ACCESSORS --
@@ -28,6 +30,7 @@ public abstract class Item {
     public String getName() { return name; }
     public String getDescription() { return description; }
     public double getCost() { return cost; }
+	public int getWeight() { return weight; }
     
 	// An Item will interact with an event, so can implement these -- EVENT HOOKS --
 	public void onSpinStart(GameEventManager events) {}

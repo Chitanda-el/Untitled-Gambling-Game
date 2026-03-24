@@ -21,6 +21,15 @@ public class RandomNumGenerator {
         this.random = new Random(seed);
     }
     
+	// wrappers for functions from random
+	public int nextInt(int bound) {
+        return random.nextInt(bound);
+    }
+
+    public double nextDouble() {
+        return random.nextDouble();
+    }
+	
     // Accessor: returns the seed used
     public long getSeed() {
         return seed;

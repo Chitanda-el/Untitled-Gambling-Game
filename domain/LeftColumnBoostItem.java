@@ -10,7 +10,8 @@ public class LeftColumnBoostItem extends Item {
         super(1,
               "Left Column Booster: " + multiplier + "X",
               "Boosts left column payouts by " + multiplier + "x.",
-              50);
+              50,
+			  1);
         this.multiplier = multiplier;
     }
 

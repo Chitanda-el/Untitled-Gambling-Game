@@ -7,6 +7,7 @@ public class CoolDuck extends Item {
         super(69,
               "Cool Duck!",
               "Woah, he's so cool",
-              -1);
+              -1,
+			  3);
     }
 }
