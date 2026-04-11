@@ -1,7 +1,6 @@
 package domain;
 
 import util.RandomNumGenerator;
-import domain.Player;
 
 /**
  * Represents the 3x3 slot machine which is the core of the game.

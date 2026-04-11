@@ -3,6 +3,7 @@ package ui.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 /**
  * Main Menu screen for Untitled Gambling Game.
@@ -24,6 +25,8 @@ public class MainMenuGUI extends JPanel {
     private JButton quitButton;
     private JLabel backgroundImage;
     
+    private static final String ASSETS_PATH = System.getProperty("user.dir") + "\\assets\\";
+    
     public MainMenuGUI(MainWindow parent) {
         this.parent = parent;
         initComponents();
@@ -34,7 +37,7 @@ public class MainMenuGUI extends JPanel {
         setLayout(new GridBagLayout());
         
         // Load background image if exists
-        ImageIcon bgImage = loadImage("/assets/ui/menu_bg.png");
+        ImageIcon bgImage = loadImage(ASSETS_PATH + "ui\\main_bg.jpg");
         if (bgImage != null) {
             backgroundImage = new JLabel(bgImage);
             backgroundImage.setLayout(new GridBagLayout());

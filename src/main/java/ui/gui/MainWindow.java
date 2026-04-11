@@ -9,7 +9,7 @@ import java.awt.*;
  * UGG's single top-level window.
  * 
  * All three GUIs (Main Menu, Slot Machine, Item Shop) must live inside
- * this one and are swapped in/out. Do not open additional windows or dialogs
+ * this one and are swapped in/out. Do not open additional windows or dialogues
  * for navigation.
  */
 public class MainWindow extends JFrame {

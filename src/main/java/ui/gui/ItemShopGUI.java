@@ -66,7 +66,7 @@ public class ItemShopGUI extends JPanel {
             if (parent.getGameDirector() != null) {
                 parent.getGameDirector().onRerollShop();
                 refreshDisplay();
-                updateShopStock(parent.getGameDirector().getShopItems());
+                //updateShopStock(parent.getGameDirector().getShopItems()); REMOVED FOR TESTING REMOVED FOR TESTING REMOVED FOR TESTING
             }
         });
         
@@ -144,6 +144,8 @@ public class ItemShopGUI extends JPanel {
     
     /**
      * Updates the shop display with the current stock from GameDirector.
+     * 
+     * @param items 
      */
     public void updateShopStock(List<Item> items) {
         currentStock.clear();
@@ -247,6 +249,8 @@ public class ItemShopGUI extends JPanel {
     
     /**
      * Disables a specific buy button (called after purchase).
+     * 
+     * @param index 
      */
     public void disableBuyButton(int index) {
         if (index >= 0 && index < buyButtons.size()) {
