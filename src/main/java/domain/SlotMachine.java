@@ -21,29 +21,37 @@ import util.RandomNumGenerator;
  */
 public class SlotMachine {
     
+    private final RandomNumGenerator rng;
+    
+    // SLOT MACHINE DISPLAY CHARACTERISTICS
     public static final int GRID_ROWS = 3;
     public static final int GRID_COLUMNS = 3;
     
-    // SUBJECT TO CHANGE. SUBJECT TO CHANGE.
-    // Possible symbols on the reel.
+    // SLOT MACHINE GRID
+    private Symbols[][] grid = new Symbols[GRID_ROWS][GRID_COLUMNS];
+    
+    // Possible symbols on the slot machine's grid.
     public enum Symbols {
         DUCK, HEART, CHERRY, SEVEN, CLOVER
     }
     
-    private final RandomNumGenerator rng;
-    
+    /**
+     * SlotMachine constructor. Creates the slot machine that we'll be playing
+     * with.
+     * 
+     * @param rng takes the RandomNumGenerator object created in GameDirector
+     */
     public SlotMachine(RandomNumGenerator rng) {
         this.rng = rng;
     }
     
     /**
-     * Generates a random 3x3 grid of elements from Symbols using the
+     * Randomizes 3x3 grid of elements from Symbols using the
      * RandomNumGenerator class.
-     *   
-     * @return a filled grid.
+     * 
+     * @return a 3x3 grid of randomized symbols.
      */
     public Symbols[][] spin() {
-        Symbols[][] grid = new Symbols[GRID_ROWS][GRID_COLUMNS];
         Symbols[] symbolOptions = Symbols.values();
         
         for (int row = 0; row < GRID_ROWS; ++row) {
@@ -52,6 +60,7 @@ public class SlotMachine {
                 grid[row][column] = symbolOptions[randomInt];
             }
         }
+        
         return grid;
     }
     

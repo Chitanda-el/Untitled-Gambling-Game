@@ -5,8 +5,8 @@ package game;
 import util.RandomNumGenerator;
 import java.util.Date;  // For if the user doesn't provide their own seed.
 
-import domain.Item;
-import java.util.List;
+import domain.*;
+import java.util.ArrayList;
 
 // GUI Elements and Dependencies
 import ui.gui.MainWindow;
@@ -34,25 +34,33 @@ public class GameDirector {
     // ----- DEPENDENCIES ----- DEPENDENCIES ----- DEPENDENCIES -----
     // ----- ------------ ----- ------------ ----- ------------ -----
     
+    // The RandomNumGenerator object is created using the current time as the
+    // seed by default. A new one is created that replaces it if the player
+    // enters a new seed.
     public RandomNumGenerator rng = new RandomNumGenerator(new Date().getTime());
-    //private Player             player;
-    //private SlotMachine        slotMachine;
+    
+    private SlotMachine slotMachine; // Reference to the SlotMachine object.
+    private MainWindow  window;      // Reference to the MainWindow object.
     //private ItemShop           itemShop;
     //private GameEventManager   eventManager;
+    
+    // grid contains the symbols to display on the slot machine in the GUI.
+    SlotMachine.Symbols[][] grid;
     
     // ----- ------------ ----- ------------ ----- ------------ -----
     // ----- CONSTRUCTORS ----- CONSTRUCTORS ----- CONSTRUCTORS -----
     // ----- ------------ ----- ------------ ----- ------------ -----
     
     public GameDirector(){
-        createUI(this);
-    }
-    
-    private static void createUI(GameDirector director) {
+        
+        // Create the MainWindow object
         SwingUtilities.invokeLater(() -> {
-            MainWindow window = new MainWindow(director); // no-arg constructor, no GameDirector needed
-            window.setVisible(true);
+            this.window = new MainWindow(this); // no-arg constructor, no GameDirector needed
+            this.window.setVisible(true);
         });
+        
+        // Create SlotMachine Object
+        slotMachine = new SlotMachine(rng);
     }
     
     // ----- --- ------------ ----- --- ------------ ----- --- ------------ -----
@@ -66,7 +74,7 @@ public class GameDirector {
      * the play button.
      */
     public void onStartGame() {
-        
+        onSpin();
     }
     
     /**
@@ -100,8 +108,15 @@ public class GameDirector {
     
     // ----- SLOT MACHINE CLASS INTERACTIONS -----
     
+    /**
+     * What happens when the spin button is pressed in the GUI?
+     * 
+     * 1. Spins the slot machine
+     * 2. Updates the grid displayed.
+     */
     public void onSpin() {
-        
+        grid = slotMachine.spin();
+        window.getSlotMachineGUI().updateSlotGrid(grid);
     }
     
     // ----- PLAYER CLASS INTERACTIONS -----

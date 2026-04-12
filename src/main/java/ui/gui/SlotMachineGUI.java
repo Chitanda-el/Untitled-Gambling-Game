@@ -54,6 +54,7 @@ public class SlotMachineGUI extends JPanel {
     private void loadSymbolImages() {
         defaultSymbolIcon = loadAndScaleImage(ASSETS_PATH + "symbols/default.png", SYMBOL_IMAGE_SIZE, SYMBOL_IMAGE_SIZE);
         
+        
         symbolImages.put(Symbols.DUCK, loadAndScaleImage(ASSETS_PATH + "symbols/duck.png", SYMBOL_IMAGE_SIZE, SYMBOL_IMAGE_SIZE));
         symbolImages.put(Symbols.HEART, loadAndScaleImage(ASSETS_PATH + "symbols/heart.png", SYMBOL_IMAGE_SIZE, SYMBOL_IMAGE_SIZE));
         symbolImages.put(Symbols.CHERRY, loadAndScaleImage(ASSETS_PATH + "symbols/cherry.png", SYMBOL_IMAGE_SIZE, SYMBOL_IMAGE_SIZE));
