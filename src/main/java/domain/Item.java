@@ -1,4 +1,5 @@
 package domain;
+import game.GameDirector;
 
 /**
  * Definitions of purchasable items.
@@ -29,13 +30,13 @@ public abstract class Item {
     public int getID() { return itemID; }
     public String getName() { return name; }
     public String getDescription() { return description; }
-    public double getCost() { return cost; }
+    public int getCost() { return cost; }
 	public int getWeight() { return weight; }
     
 	// An Item will interact with an event, so can implement these -- EVENT HOOKS --
-	public void onSpinStart(GameEventManager events) {}
-    public void onSpinEnd(GameEventManager events) {}
-    public void onPayoutCalculation(GameEventManager events) {}
-    public void onSymbolRolled(GameEventManager events, Symbol symbol) {}
+	public void onSpinStart(GameDirector events) {}
+    public void onSpinEnd(GameDirector events) {}
+    public void onPayoutCalculation(GameDirector events) {}
+    public void onSymbolRolled(GameDirector events, SlotMachine.Symbols symbol) {}
 	
 }

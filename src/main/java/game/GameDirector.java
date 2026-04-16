@@ -4,7 +4,7 @@ package game;
 // no random number should ever be generated any other way than through 'rng'.
 import util.RandomNumGenerator;
 import java.util.Date;  // For if the user doesn't provide their own seed.
-
+import java.util.List;
 import domain.*;
 import java.util.ArrayList;
 
@@ -82,7 +82,7 @@ public class GameDirector {
      * their save.
      */
     public void onAbandonSave() {
-        
+        // saveManager.deleteSave();
     }
     
     // ----- RANDOM NUMBER GENERATOR CLASS INTERACTIONS -----
@@ -135,11 +135,6 @@ public class GameDirector {
         
     }
     
-    /**
-    public List<Item> getShopItems() {
-        return List<0>;
-    }
-    */
     
     /**
      * 

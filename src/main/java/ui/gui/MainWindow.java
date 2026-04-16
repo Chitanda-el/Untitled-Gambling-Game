@@ -1,5 +1,6 @@
 // MainWindow.java
 package ui.gui;
+import domain.ItemShop;
 
 import game.GameDirector;
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class MainWindow extends JFrame {
     private MainMenuGUI mainMenuGUI;
     private SlotMachineGUI slotMachineGUI;
     private ItemShopGUI itemShopGUI;
+    private ItemShop shop;
     
     private GameDirector gameDirector;
     
@@ -92,7 +94,7 @@ public class MainWindow extends JFrame {
                 itemShopGUI.refreshDisplay();
                 // Request current shop stock from GameDirector to display
                 if (gameDirector != null) {
-                    itemShopGUI.updateShopStock(gameDirector.getShopItems());
+                    itemShopGUI.updateShopStock(shop.getStock());
                 }
                 break;
         }
@@ -117,4 +119,6 @@ public class MainWindow extends JFrame {
     public MainMenuGUI getMainMenuGUI() {
         return mainMenuGUI;
     }
+    
+    public ItemShop getShop() { return shop; }
 }

@@ -37,6 +37,10 @@ public class Player {
         this.shopMoney += amount;
     }
     
+    public void spendMoney(int amount) {
+        this.shopMoney -= amount;
+    }
+    
     // Accessor: return's the player's current money
     public int getMoney() {
         return shopMoney;

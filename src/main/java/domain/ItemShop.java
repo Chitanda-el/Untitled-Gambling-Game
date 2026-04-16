@@ -1,6 +1,7 @@
 package domain;
 
 import util.RandomNumGenerator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class ItemShop {
     private final RandomNumGenerator rng;
     private final List<Item> allItems;  // Reference for refreshing the shop
     private List<Item> currentStock;    // Items for sale
+    
+    public List<Item> getStock() { return currentStock; }
     
     public ItemShop(RandomNumGenerator rng, List<Item> allItems) {
         this.rng = rng;

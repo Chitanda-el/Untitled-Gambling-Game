@@ -1,4 +1,5 @@
 package domain;
+import game.GameDirector;
 
 /** This is an example item that boosts the payout of the symbol in the left column. */
 
@@ -16,7 +17,7 @@ public class LeftColumnBoostItem extends Item {
     }
 
     @Override
-    public void onPayoutCalculation(GameEventManager events) {
-        events.modifyPatternPayout(Pattern.LEFT_COLUMN, multiplier);
+    public void onPayoutCalculation(GameDirector events) {
+     //   events.modifyPatternPayout(SlotMachine.Symbols[][] grid, multiplier);
     }
 }

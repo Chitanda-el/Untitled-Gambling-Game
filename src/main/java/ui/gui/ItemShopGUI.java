@@ -2,6 +2,7 @@
 package ui.gui;
 
 import domain.Item;
+import domain.ItemShop;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -108,7 +109,7 @@ public class ItemShopGUI extends JPanel {
             if (parent.getGameDirector() != null) {
                 parent.getGameDirector().onRerollShop();
                 refreshDisplay();
-                List<Item> newStock = parent.getGameDirector().getShopItems();
+                List<Item> newStock = parent.getShop().getStock();
                 updateShopStock(newStock);
                 resetBuyButtons();
     }
