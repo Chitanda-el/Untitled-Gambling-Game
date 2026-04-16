@@ -5,6 +5,7 @@ package game;
  * 
  */
 public class Main {
-    
-    
+    public static void main(String[] args) {
+        GameDirector director = new GameDirector();
+    }
 }
