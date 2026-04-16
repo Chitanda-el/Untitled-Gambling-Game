@@ -12,11 +12,19 @@ import java.util.List;
 /**
  * Item Shop screen for Untitled Gambling Game.
  * 
+ * This screen allows players to spend their money on items that affect gameplay.
  * Features:
- * - Grid display of purchasable items with icons and prices
- * - Click items to purchase
- * - Button to return to Slot Machine
- * - Displays player's current money
+ * - Grid display of purchasable items (3 columns)
+ * - Each item shows: image, name, price, description
+ * - BUY button for each item - calls GameDirector.onPurchaseItem()
+ * - REROLL SHOP button - pays to refresh available items (calls GameDirector.onRerollShop())
+ * - BACK button - returns to slot machine screen
+ * - Money display - shows player's current currency
+ * 
+ * The shop does NOT manage inventory or purchases directly. Instead:
+ * 1. GameDirector provides the current shop stock via getShopItems()
+ * 2. GameDirector validates purchases and updates Player/ItemShop domain objects
+ * 3. This GUI only displays the data and relays user actions
  */
 public class ItemShopGUI extends JPanel {
     
@@ -27,6 +35,7 @@ public class ItemShopGUI extends JPanel {
     private JButton backButton;
     private JButton rerollButton;
     private JScrollPane scrollPane;
+    private JLabel backgroundImage;
     
     private List<Item> currentStock;
     private List<JButton> buyButtons;
@@ -40,24 +49,57 @@ public class ItemShopGUI extends JPanel {
         this.currentStock = new ArrayList<>();
         this.buyButtons = new ArrayList<>();
         this.itemCards = new ArrayList<>();
+        loadBackgroundImage();
         initComponents();
         layoutComponents();
     }
     
+    /**
+     * Loads the background image for the shop screen.
+     * Looks for assets/ui/shop_bg.png or shop_bg.jpg
+     */
+    private void loadBackgroundImage() {
+        ImageIcon bgImage = loadImage(ASSETS_PATH + "ui/shop_bg.png");
+        if (bgImage == null) {
+            bgImage = loadImage(ASSETS_PATH + "ui/shop_bg.jpg");
+        }
+        
+        if (bgImage != null) {
+            Image scaledBg = bgImage.getImage().getScaledInstance(1280, 720, Image.SCALE_SMOOTH);
+            backgroundImage = new JLabel(new ImageIcon(scaledBg));
+            backgroundImage.setLayout(null);
+            setLayout(null);
+            add(backgroundImage);
+            backgroundImage.setBounds(0, 0, 1280, 720);
+        } else {
+            setBackground(new Color(40, 20, 60));
+            setLayout(null);
+        }
+    }
+    
     private void initComponents() {
-        setBackground(new Color(40, 20, 60));
-        setLayout(null);
+        // Determine which component to add child components to
+        // If we have a background image, add to it; otherwise add directly to this panel
+        java.awt.Container contentPanel = (backgroundImage != null) ? backgroundImage : this;
         
         moneyLabel = new JLabel("Money: $0");
         moneyLabel.setFont(new Font("Arial", Font.BOLD, 28));
         moneyLabel.setForeground(Color.GREEN);
         
+        // BACK BUTTON: Returns to slot machine screen
+        // The slot machine will refresh its display when switched back
         backButton = new JButton("BACK TO SLOT MACHINE");
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         backButton.setBackground(new Color(150, 100, 0));
         backButton.setForeground(Color.WHITE);
         backButton.addActionListener(e -> parent.switchTo(MainWindow.Screen.SLOT_MACHINE));
         
+        // REROLL BUTTON: Pays to refresh available shop items
+        // Calls GameDirector.onRerollShop() which:
+        //   1. Checks if player has enough money (typically $50)
+        //   2. Deducts the reroll cost
+        //   3. Calls ItemShop.refreshShop() to generate new random items
+        //   4. Returns the new stock via getShopItems()
         rerollButton = new JButton("REROLL SHOP ($50)");
         rerollButton.setFont(new Font("Arial", Font.BOLD, 16));
         rerollButton.setBackground(new Color(100, 100, 200));
@@ -66,38 +108,53 @@ public class ItemShopGUI extends JPanel {
             if (parent.getGameDirector() != null) {
                 parent.getGameDirector().onRerollShop();
                 refreshDisplay();
-                updateShopStock(parent.getGameDirector().getShopItems());
-            }
-        });
+                List<Item> newStock = parent.getGameDirector().getShopItems();
+                updateShopStock(newStock);
+                resetBuyButtons();
+    }
+});
+        
         
         shopGridPanel = new JPanel(new GridLayout(0, 3, 20, 20));
-        shopGridPanel.setBackground(new Color(40, 20, 60));
+        shopGridPanel.setBackground(new Color(40, 20, 60, 200));  // Semi-transparent
         shopGridPanel.setOpaque(true);
         
         scrollPane = new JScrollPane(shopGridPanel);
         scrollPane.setBackground(new Color(40, 20, 60));
         scrollPane.setBorder(null);
         scrollPane.getViewport().setBackground(new Color(40, 20, 60));
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        
+        contentPanel.add(moneyLabel);
+        contentPanel.add(backButton);
+        contentPanel.add(rerollButton);
+        contentPanel.add(scrollPane);
     }
     
     private void layoutComponents() {
         moneyLabel.setBounds(1280 - 250, 20, 230, 40);
-        add(moneyLabel);
-        
         backButton.setBounds(30, 620, 250, 50);
-        add(backButton);
-        
         rerollButton.setBounds(1280 - 200, 620, 170, 50);
-        add(rerollButton);
-        
         scrollPane.setBounds(100, 80, 1080, 500);
-        add(scrollPane);
+    }
+    
+    private ImageIcon loadImage(String path) {
+        try {
+            File imgFile = new File(path);
+            if (imgFile.exists()) {
+                return new ImageIcon(imgFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            // Silently fail
+        }
+        return null;
     }
     
     private ImageIcon loadItemImage(Item item, int width, int height) {
-        // Try to load based on item name or ID
+        // Generate filename from item name (lowercase, underscores instead of spaces)
         String fileName = item.getName().toLowerCase().replace(" ", "_").replace("!", "").replace("x", "");
-        String path = ASSETS_PATH + "items/" + fileName + ".png";
+        String path = ASSETS_PATH + "items/"+ fileName + ".png";
         
         try {
             File imgFile = new File(path);
@@ -144,6 +201,8 @@ public class ItemShopGUI extends JPanel {
     
     /**
      * Updates the shop display with the current stock from GameDirector.
+     * 
+     * @param items list of items currently available for purchase
      */
     public void updateShopStock(List<Item> items) {
         currentStock.clear();
@@ -197,7 +256,14 @@ public class ItemShopGUI extends JPanel {
         descLabel.setFont(new Font("Arial", Font.PLAIN, 10));
         descLabel.setForeground(Color.LIGHT_GRAY);
         
-        // Buy button
+        // BUY BUTTON: Attempts to purchase the item
+        // Calls GameDirector.onPurchaseItem(index) which:
+        //   1. Checks if item exists in shop stock
+        //   2. Checks if player can afford it
+        //   3. Deducts money from player
+        //   4. Adds item to player inventory
+        //   5. Removes item from shop stock
+        //   6. Returns true if successful
         JButton buyButton = new JButton("BUY");
         buyButton.setBackground(new Color(0, 150, 0));
         buyButton.setForeground(Color.WHITE);
@@ -238,6 +304,7 @@ public class ItemShopGUI extends JPanel {
     
     /**
      * Updates the money display.
+     * Called when switching to this screen and after purchases/rerolls.
      */
     public void refreshDisplay() {
         if (parent.getGameDirector() != null) {
@@ -247,6 +314,8 @@ public class ItemShopGUI extends JPanel {
     
     /**
      * Disables a specific buy button (called after purchase).
+     * 
+     * @param index index of the button to disable
      */
     public void disableBuyButton(int index) {
         if (index >= 0 && index < buyButtons.size()) {
