@@ -1,6 +1,7 @@
 // ItemShop.java
 package domain;
 
+import domain.items.Item;
 import util.RandomNumGenerator;
 import java.util.ArrayList;
 import java.util.List;

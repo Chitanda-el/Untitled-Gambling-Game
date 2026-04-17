@@ -1,7 +1,7 @@
 // ItemShopGUI.java
 package ui.gui;
 
-import domain.Item;
+import domain.items.Item;
 import domain.ItemShop;
 import javax.swing.*;
 import java.awt.*;

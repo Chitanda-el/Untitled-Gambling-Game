@@ -1,13 +1,13 @@
-package domain.items;
+package domain.items.PatternUnlocks;
 
-import domain.Item;
 import domain.SlotMachine;
+import domain.items.PatternUnlock;
 
 /**
  * If this item is in the player's inventory then it allows the right
  * column to be checked for valid patterns (three-of-a-kind).
  */
-public class RightColumnPatternUnlock extends Item {
+public class RightColumnPatternUnlock extends PatternUnlock {
     
     private static final int ITEM_ID = 2;
     private static final String NAME = "Righty Tighty";
@@ -19,21 +19,9 @@ public class RightColumnPatternUnlock extends Item {
     private static final int COST = 10;
     
     public RightColumnPatternUnlock() {
-        super(ITEM_ID, NAME, DESCRIPTION, COST);
-    }
-    
-    /**
-     * Evaluate the right column for matching patterns.
-     * 
-     * @param grid of symbols to evaluate.
-     * @return 0 if no matching patterns were found, 1 if they were.
-     */
-    public int evaluateRightColumn(SlotMachine.Symbols[][] grid) {
-        int localMultiplier = 0;
-        if (grid[0][2] == grid[1][2] && grid[1][2] == grid[2][2]) {
-            localMultiplier++;
-        }
+        final int ROWS[] = {0, 1, 2};
+        final int COLUMNS[] = {2, 2, 2};
         
-        return localMultiplier;
+        super(ITEM_ID, NAME, DESCRIPTION, COST, ROWS, COLUMNS);
     }
 }

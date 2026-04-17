@@ -1,17 +1,17 @@
 package domain;
 
 import domain.items.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Manages the player's state for a given run, including their
  * current money, outstanding debt, and item inventory.
  */
 public class Player {
-    private int shopMoney;  // Money that buys items.
-    private int debt;       // Debt requirement
-    private final List<Item> inventory;
+    private int shopMoney;        // Money that buys items.
+    private int debt;             // Debt requirement
+    private final List<Item> inventory;  // Player's inventory of items
     
     /**
      * Constructs a Player object.
@@ -23,7 +23,7 @@ public class Player {
     public Player(int startingMoney, int initialDebt) {
         this.shopMoney = startingMoney;
         this.debt = initialDebt;
-        this.inventory = new ArrayList<>(); // I'm a Java newbie
+        this.inventory = new ArrayList<>();
     }
 
 
@@ -66,15 +66,24 @@ public class Player {
         inventory.add(item);
     }
     
-    public List<Integer> getInventoryIDs() {
-        List<Integer> ids = new ArrayList<>();
-        for (Item i : inventory) ids.add(i.getID());
-        return ids;
+    /**
+     * Takes a subclass which extends Item as its argument and checks whether
+     * any item which is an instance of the passed subclass is in the player's
+     * inventory. If it is, then it returns a reference to that item or null
+     * otherwise.
+     * 
+     * @param <T> any type which extends Item.
+     * @param itemQuery a class which extends Item to search for.
+     * @return null if no object which is an instance of itemQuery is found or,
+     *         if an appropriate item is found, return a reference to it.
+     */
+    public <T extends Item> T checkInventory(Class<T> itemQuery) {
+        for (Item itemInInventory : inventory) {
+            if (itemQuery.isInstance(itemInInventory)) {
+                return itemQuery.cast(itemInInventory);
+            }
+        }
+        return null;
     }
-    
-}
-    
-    // TODO: getInventory()
-    // returns the items in the player inventory. How this is handled
-    // varies depending on how Items is handled.
     // ----- END\INVENTORY ----- END\INVENTORY ----- END\INVENTORY ----- 
+}

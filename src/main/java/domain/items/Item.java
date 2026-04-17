@@ -1,4 +1,4 @@
-package domain;
+package domain.items;
 
 /**
  * Base class from which all purchasable items inherit.
@@ -11,21 +11,24 @@ package domain;
  */
 public abstract class Item {
     
-    protected final int ITEM_ID;         // int ID identifying the item.
-    protected final String NAME;        // Name of the item (display to user).
-    protected final String DESCRIPTION; // What the item is (display to user).
-    protected final int COST;        // The base cost of the item.
+    private final int ITEM_ID;        // int ID identifying the item.
+    private final String NAME;        // Name of the item (display to user).
+    private final String DESCRIPTION; // What the item is (display to user).
+    private final int COST;           // The base cost of the item.
 	
-    public Item(int itemID, String name, String description, int cost) {
+    protected Item(int itemID, String name, String description, int cost) {
         this.ITEM_ID = itemID;
         this.NAME = name;
         this.DESCRIPTION = description;
         this.COST = cost;
     }
     
-    // -- ACCESSORS --
+    // ----- ------- ----- ------- -----
+    // ----- GETTERS ----- GETTERS -----
+    // ----- ------- ----- ------- -----
+    
     public int getID()              { return ITEM_ID; }
     public String getName()         { return NAME; }
     public String getDescription()  { return DESCRIPTION; }
-    public int getCost()         { return COST; }
+    public int getCost()            { return COST; }
 }

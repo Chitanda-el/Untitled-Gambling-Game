@@ -1,6 +1,15 @@
 package domain;
 
+// ----- ------------- ----- ------------- -----
+// ----- COLLABORATORS ----- COLLABORATORS -----
+// ----- ------------- ----- ------------- -----
+
+import domain.items.PatternUnlocks.*;
 import util.RandomNumGenerator;
+
+// Collaborates with Item subclasses to allow the player to unlock 
+// additional winning patterns.
+import domain.items.*;
 
 /**
  * Represents the 3x3 slot machine which is the core of the game.
@@ -33,6 +42,16 @@ public class SlotMachine {
     public enum Symbols {
         DUCK, HEART, CHERRY, SEVEN, CLOVER
     }
+    
+    // List of all PatternUnlock subclasses
+    final Class<? extends PatternUnlock>[] patterns = new Class[]{
+                                AscendingDiagPatternUnlock.class,
+                                DescendingDiagPatternUnlock.class,
+                                TopRowPatternUnlock.class,
+                                BottomRowPatternUnlock.class,
+                                LeftColumnPatternUnlock.class,
+                                MiddleColumnPatternUnlock.class,
+                                RightColumnPatternUnlock.class};
     
     // Bet tracking
     private int currentBet;
@@ -75,21 +94,35 @@ public class SlotMachine {
     /**
      * Evaluates the grid for winning patterns.
      * 
-     * Checks for three-of-a-kind in the middle row, and other rows/columns as
-     * items permit. It returns 1 if no winning pattern is detected and
-     * increments for each winning pattern detected.
+     * Checks for three-of-a-kind in the middle row (standardPattern), and other
+     * rows/columns as items permit. It increments multiplier by one for each
+     * winning pattern detected and returns it, or returns -1 if no winning
+     * pattern is detected.
      * 
      * @param grid to be evaluated for patterns.
-     * @return returns -1 if no winning pattern is detected and increments by
-     *         1 for each winning pattern. 
-     * 
-     * TODO: Check player inventory for unlocked patterns and check those too.
-     * Potentially collaborate with the inventory to check for
-     * weighted patterns or symbols.
+     * @return returns -1 if no winning pattern is detected or multiplier
+     *         (which increments by 1 for each winning pattern) if one is
+     *         detected. 
      */
-    private int evaluatePatterns(Symbols[][] grid) {
+    private int evaluatePatterns(Symbols[][] grid, Player player) {
+        
+        // Accumulator for number of winning patterns
         int multiplier = 1;
+        
+        // Takes a reference to a PatterUnlock subclass object
+        PatternUnlock patternToEvaluate;
+        
+        // Check the middle row
         multiplier += standardPattern(grid);
+        
+        // Check the player's inventory for pattern unlock items and evaluate
+        // each pattern that has been unlocked.
+        for (Class<? extends PatternUnlock> pattern : patterns) {
+            patternToEvaluate = player.checkInventory(pattern);
+            if (patternToEvaluate != null) {
+                multiplier += patternToEvaluate.evaluatePattern(grid);
+            }
+        };
         
         if (multiplier == 1) {
             return -1;
@@ -119,8 +152,8 @@ public class SlotMachine {
      * @param bet integer bet placed by the player
      * @return the amount of money the player won
      */
-    public int calculatePayout(Symbols[][] grid, int bet) {
-        int multiplier = evaluatePatterns(grid);
+    public int calculatePayout(Symbols[][] grid, int bet, Player player) {
+        int multiplier = evaluatePatterns(grid, player);
         return bet * multiplier;
     }
 

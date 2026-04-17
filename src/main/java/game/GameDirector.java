@@ -6,10 +6,10 @@ import util.*;
 import java.util.Date;  // For if the user doesn't provide their own seed.
 import java.util.ArrayList;
 import java.util.List;
-import domain.items.*;
 
 import domain.*;
-import java.util.Scanner;
+import domain.items.*;
+import domain.items.PatternUnlocks.*;
 
 // GUI Elements and Dependencies
 import ui.gui.MainWindow;
@@ -138,7 +138,7 @@ public class GameDirector {
             grid = slotMachine.spin();                          // Generate grid
             window.getSlotMachineGUI().updateSlotGrid(grid);    // Display grid
             
-            int payout = slotMachine.calculatePayout(grid, bet);
+            int payout = slotMachine.calculatePayout(grid, bet, player);
             player.addMoney(payout);
         }
         
