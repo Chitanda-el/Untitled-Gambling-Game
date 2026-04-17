@@ -211,4 +211,23 @@ public class GameDirector {
 
         return data;
     }
+    
+    public void restoreFromSave(SaveData data) {
+
+        // Player
+        player.setMoney(data.money);
+        player.setDebt(data.debt);
+
+        for (int id : data.inventoryItemIDs) {
+        //    player.addItem(itemShop.createItem(id));
+        }
+
+        // RNG
+        this.rng = new RandomNumGenerator(data.rngSeed);
+
+        // Shop
+        for (int id : data.shopItemIDs) {
+        //    itemShop.addItem(itemShop.createItem(id));
+        }
+    }
 }
