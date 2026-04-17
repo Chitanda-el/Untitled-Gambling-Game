@@ -9,7 +9,7 @@ import domain.SlotMachine;
  */
 public class TopRowPatternUnlock extends Item {
     
-    private static final int ITEM_ID = 0;
+    private static final int ITEM_ID = 3;
     private static final String NAME = "Top Analyzer";
     private static final String DESCRIPTION =
               "This top row analyzer updates the slot machine's computer "
