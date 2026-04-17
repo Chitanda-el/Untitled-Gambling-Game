@@ -163,35 +163,39 @@ public class ItemShopGUI extends JPanel {
     }
     
     private ImageIcon loadItemImage(Item item, int width, int height) {
-        // Generate filename from item name (lowercase, underscores instead of spaces)
-        String fileName = item.getName().toLowerCase().replace(" ", "_").replace("!", "").replace("x", "");
-        String path = ASSETS_PATH + "items/"+ fileName + ".png";
-        
-        try {
-            File imgFile = new File(path);
-            if (imgFile.exists()) {
-                ImageIcon original = new ImageIcon(imgFile.getAbsolutePath());
-                Image scaledImage = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                return new ImageIcon(scaledImage);
-            }
-        } catch (Exception e) {
-            // Try alternate path
+    // Map item names to correct asset filenames
+    String fileName = getItemAssetFileName(item);
+    String path = ASSETS_PATH + "items/" + fileName + ".png";
+    
+    System.out.println("Loading item image: " + path);
+    
+    try {
+        File imgFile = new File(path);
+        if (imgFile.exists()) {
+            ImageIcon original = new ImageIcon(imgFile.getAbsolutePath());
+            Image scaledImage = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        } else {
+            System.out.println("Image not found: " + path);
         }
-        
-        // Try default item image
-        try {
-            File defaultFile = new File(ASSETS_PATH + "items/default_item.png");
-            if (defaultFile.exists()) {
-                ImageIcon original = new ImageIcon(defaultFile.getAbsolutePath());
-                Image scaledImage = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                return new ImageIcon(scaledImage);
-            }
-        } catch (Exception e) {
-            // Fall through to placeholder
-        }
-        
-        return createPlaceholderIcon(width, height, item.getName().substring(0, Math.min(2, item.getName().length())));
+    } catch (Exception e) {
+        System.err.println("Failed to load image for: " + item.getName());
     }
+    
+    // Try default item image
+    try {
+        File defaultFile = new File(ASSETS_PATH + "items/default_item.png");
+        if (defaultFile.exists()) {
+            ImageIcon original = new ImageIcon(defaultFile.getAbsolutePath());
+            Image scaledImage = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(scaledImage);
+        }
+    } catch (Exception e) {
+        // Fall through to placeholder
+    }
+    
+    return createPlaceholderIcon(width, height, item.getName().substring(0, Math.min(2, item.getName().length())));
+}
     
     private ImageIcon createPlaceholderIcon(int width, int height, String text) {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -321,6 +325,31 @@ public class ItemShopGUI extends JPanel {
         
         return card;
     }
+    
+    
+    
+/**
+ * Maps item names to their corresponding asset filenames.
+ * 
+ * @param item the item to get the filename for
+ * @return the asset filename (without .png extension)
+ */
+    private String getItemAssetFileName(Item item) {
+    String name = item.getName().toLowerCase();
+    
+    if (name.contains("bottom") || name.contains("bell")) {
+        return "bottom_bell";
+    } else if (name.contains("left") || name.contains("leech")) {
+        return "left_leech";
+    } else if (name.contains("right") || name.contains("tight")) {
+        return "right_tight";
+    } else if (name.contains("top") || name.contains("analyzer")) {
+        return "top_analyzer";
+    } else {
+        // Default: convert name to lowercase with underscores
+        return name.toLowerCase().replace(" ", "_").replace("!", "").replace("x", "");
+    }
+}
     
     /**
      * Updates the money display.
