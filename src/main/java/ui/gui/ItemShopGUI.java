@@ -106,12 +106,22 @@ public class ItemShopGUI extends JPanel {
         rerollButton.setBackground(new Color(100, 100, 200));
         rerollButton.setForeground(Color.WHITE);
         rerollButton.addActionListener(e -> {
-            if (parent.getGameDirector() != null) {
-                parent.getGameDirector().onRerollShop();
-                refreshDisplay();
-                List<Item> newStock = parent.getShop().getStock();
-                updateShopStock(newStock);
-                resetBuyButtons();
+    if (parent.getGameDirector() != null && parent.getGameDirector().getItemShop() != null) {
+        boolean success = parent.getGameDirector().getItemShop().rerollShop(
+            parent.getGameDirector().getPlayer()  // Need to add getPlayer() to GameDirector
+        );
+        if (success) {
+            refreshDisplay();
+            List<Item> newStock = parent.getGameDirector().getItemShop().getCurrentStock();
+            updateShopStock(newStock);
+            resetBuyButtons();
+            JOptionPane.showMessageDialog(this, "Shop refreshed!");
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                "Not enough money to reroll shop! ($" + 
+                parent.getGameDirector().getItemShop().getRerollCost() + " required)",
+                "Insufficient Funds", JOptionPane.WARNING_MESSAGE);
+        }
     }
 });
         
@@ -206,25 +216,34 @@ public class ItemShopGUI extends JPanel {
      * @param items list of items currently available for purchase
      */
     public void updateShopStock(List<Item> items) {
-        currentStock.clear();
-        buyButtons.clear();
-        itemCards.clear();
-        shopGridPanel.removeAll();
+    System.out.println("Updating shop stock with " + (items != null ? items.size() : 0) + " items");
+    
+    currentStock.clear();
+    buyButtons.clear();
+    itemCards.clear();
+    shopGridPanel.removeAll();
+    
+    if (items != null && !items.isEmpty()) {
+        currentStock.addAll(items);
         
-        if (items != null) {
-            currentStock.addAll(items);
-            
-            for (int i = 0; i < currentStock.size(); i++) {
-                Item item = currentStock.get(i);
-                JPanel card = createItemCard(item, i);
-                itemCards.add(card);
-                shopGridPanel.add(card);
-            }
+        for (int i = 0; i < currentStock.size(); i++) {
+            Item item = currentStock.get(i);
+            System.out.println("Adding item to shop: " + item.getName());
+            JPanel card = createItemCard(item, i);
+            itemCards.add(card);
+            shopGridPanel.add(card);
         }
-        
-        shopGridPanel.revalidate();
-        shopGridPanel.repaint();
+    } else {
+        // Show empty message when no items
+        JLabel emptyLabel = new JLabel("No items available! Check back later.", SwingConstants.CENTER);
+        emptyLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        emptyLabel.setForeground(Color.WHITE);
+        shopGridPanel.add(emptyLabel);
     }
+    
+    shopGridPanel.revalidate();
+    shopGridPanel.repaint();
+}
     
     private JPanel createItemCard(Item item, int index) {
         JPanel card = new JPanel(new BorderLayout());

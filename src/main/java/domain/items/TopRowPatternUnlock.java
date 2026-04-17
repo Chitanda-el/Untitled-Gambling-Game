@@ -1,5 +1,6 @@
 package domain.items;
 
+import domain.Item;
 import domain.SlotMachine;
 
 /**
@@ -13,9 +14,10 @@ public class TopRowPatternUnlock extends Item {
     private static final String DESCRIPTION =
               "This top row analyzer updates the slot machine's computer "
             + "allowing it to scan the top row for winning patterns.";
+     private static final int COST = 10;
     
     public TopRowPatternUnlock() {
-        super(ITEM_ID, NAME, DESCRIPTION);
+        super(ITEM_ID, NAME, DESCRIPTION, COST);
     }
     
     /**

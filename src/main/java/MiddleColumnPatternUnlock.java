@@ -1,5 +1,6 @@
 package domain.items;
 
+import domain.Item;
 import domain.SlotMachine;
 
 /**
@@ -12,9 +13,10 @@ public class MiddleColumnPatternUnlock extends Item {
     private static final String NAME = "Middle Column";
     private static final String DESCRIPTION =
               "The middle column can now contain a winning pattern.";
-    
+    private static final int COST = 10;
+     
     public MiddleColumnPatternUnlock() {
-        super(ITEM_ID, NAME, DESCRIPTION);
+        super(ITEM_ID, NAME, DESCRIPTION, COST);
     }
     
     /**

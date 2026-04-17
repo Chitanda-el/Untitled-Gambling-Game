@@ -93,8 +93,8 @@ public class MainWindow extends JFrame {
             case ITEM_SHOP:
                 itemShopGUI.refreshDisplay();
                 // Request current shop stock from GameDirector to display
-                if (gameDirector != null) {
-                    itemShopGUI.updateShopStock(shop.getStock());
+                if (gameDirector != null && gameDirector.getItemShop() != null) {
+                    itemShopGUI.updateShopStock(gameDirector.getItemShop().getCurrentStock());
                 }
                 break;
         }

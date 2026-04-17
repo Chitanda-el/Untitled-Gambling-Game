@@ -1,5 +1,6 @@
 package domain.items;
 
+import domain.Item;
 import domain.SlotMachine;
 
 /**
@@ -14,9 +15,10 @@ public class BottomRowPatternUnlock extends Item {
               "This bottom bell's mysterious chime sparks an epiphany in the "
             + "slot machine, allowing it to verify whether a winning pattern "
             + " has appeared in the bottom row.";
+    private static final int COST = 10;
     
     public BottomRowPatternUnlock() {
-        super(ITEM_ID, NAME, DESCRIPTION);
+        super(ITEM_ID, NAME, DESCRIPTION, COST);
     }
     
     /**

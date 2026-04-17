@@ -1,5 +1,6 @@
 package domain.items;
 
+import domain.Item;
 import domain.SlotMachine;
 
 /**
@@ -15,9 +16,10 @@ public class RightColumnPatternUnlock extends Item {
             + "came loose and got lost on the machine due to the spinning of "
             + "the reels. Fortunately the hardware store has more, "
             + "albeit at a steep price.";
+    private static final int COST = 10;
     
     public RightColumnPatternUnlock() {
-        super(ITEM_ID, NAME, DESCRIPTION);
+        super(ITEM_ID, NAME, DESCRIPTION, COST);
     }
     
     /**

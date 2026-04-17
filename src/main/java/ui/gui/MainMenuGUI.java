@@ -30,7 +30,7 @@ public class MainMenuGUI extends JPanel {
     private JLabel backgroundImage;
     
     // Path to assets folder (project root, above src/)
-    private static final String ASSETS_PATH = System.getProperty("user.dir") + File.separator + "assets" + File.separator;
+    private static final String ASSETS_PATH = System.getProperty("user.dir") + "/assets/";
     
     public MainMenuGUI(MainWindow parent) {
         this.parent = parent;
@@ -42,9 +42,9 @@ public class MainMenuGUI extends JPanel {
         setLayout(new BorderLayout());
         
         // Load background image from assets/ui/main_bg.png or main_bg.jpg
-        ImageIcon bgImage = loadImage(ASSETS_PATH + "ui" + File.separator + "main_bg.png");
+        ImageIcon bgImage = loadImage(ASSETS_PATH + "ui/main_bg.png");
         if (bgImage == null) {
-            bgImage = loadImage(ASSETS_PATH + "ui" + File.separator + "main_bg.jpg");
+            bgImage = loadImage(ASSETS_PATH + "ui/main_bg.jpg");
         }
         
         if (bgImage != null) {

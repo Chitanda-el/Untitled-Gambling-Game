@@ -1,5 +1,6 @@
 package domain.items;
 
+import domain.Item;
 import domain.SlotMachine;
 
 /**
@@ -15,9 +16,10 @@ public class LeftColumnPatternUnlock extends Item {
             + "more surpisingly friendly! It will check whether the reels in "
             + "the left-hand column match and trigger the slot machine to "
             + "payout for that pattern.";
+     private static final int COST = 10;
     
     public LeftColumnPatternUnlock() {
-        super(ITEM_ID, NAME, DESCRIPTION);
+        super(ITEM_ID, NAME, DESCRIPTION, COST);
     }
     
     /**

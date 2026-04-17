@@ -48,6 +48,7 @@ public class GameDirector {
     
     private SlotMachine slotMachine; // Reference to the SlotMachine object.
     private MainWindow  window;      // Reference to the MainWindow object.
+    private ItemShop itemShop;
     
     // Reference to the Player object.
     private Player player;
@@ -127,6 +128,7 @@ public class GameDirector {
      * 
      * 1. Spins the slot machine
      * 2. Updates the grid displayed.
+     * 3. Updates the players money and Debt accordingly.
      */
     public void onSpin(int bet) {
         if (bet <= player.getMoney() && bet >= 0) {
@@ -145,11 +147,17 @@ public class GameDirector {
             int newDebt = player.getDebt()*STANDARD_DEBT_SCALE;
             player.setDebt(newDebt);
         }
+        
+        window.getSlotMachineGUI().refreshDisplay();
+    }
+    
+    public SlotMachine getSlotMachine() {
+        return slotMachine;
     }
     
     // TEMPORARY FOR TESTING GUI TEMPORARY FOR TESTING GUI
     public void onSpin() {
-
+        onSpin(5); // Temp testing while SlotMacineGUI is tested, will eventually be deprecated and slotMachineGUI will input a proper value based on the bet given.
     }
         
     // ----- PLAYER CLASS INTERACTIONS -----
@@ -158,16 +166,23 @@ public class GameDirector {
         return player.getMoney();
     }
     
+
     public int getPlayerDebt() {
         return player.getDebt();
     }
     
+    public Player getPlayer() {
+    return player;
+    }
     // ----- ITEM SHOP CLASS INTERACTIONS -----
     
     public void onRerollShop() {
         
     }
     
+    public ItemShop getItemShop() {
+        return itemShop;
+    }
     
     /**
      * 
