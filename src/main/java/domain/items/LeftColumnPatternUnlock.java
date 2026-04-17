@@ -9,7 +9,7 @@ import domain.SlotMachine;
  */
 public class LeftColumnPatternUnlock extends Item {
     
-    private static final int ITEM_ID = 0;
+    private static final int ITEM_ID = 1;
     private static final String NAME = "Left-handed Leech";
     private static final String DESCRIPTION =
               "This left-handed leech is surprisingly intelligent, and even "

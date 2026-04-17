@@ -9,7 +9,7 @@ import domain.SlotMachine;
  */
 public class RightColumnPatternUnlock extends Item {
     
-    private static final int ITEM_ID = 0;
+    private static final int ITEM_ID = 2;
     private static final String NAME = "Righty Tighty";
     private static final String DESCRIPTION =
               "A screw allowing the right column to contain a winning pattern "

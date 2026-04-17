@@ -2,9 +2,9 @@ package game;
 
 // The 'rng' object created in the GameDirector is to be used everywhere;
 // no random number should ever be generated any other way than through 'rng'.
-import util.RandomNumGenerator;
+import util.*;
 import java.util.Date;  // For if the user doesn't provide their own seed.
-import java.util.List;
+import java.util.ArrayList;
 
 import domain.*;
 import java.util.Scanner;
@@ -49,12 +49,10 @@ public class GameDirector {
     private SlotMachine slotMachine; // Reference to the SlotMachine object.
     private MainWindow  window;      // Reference to the MainWindow object.
     private ItemShop itemShop;
+    private SaveManager save;
     
     // Reference to the Player object.
     private Player player;
-    
-    //private ItemShop           itemShop;
-    //private GameEventManager   eventManager;
     
     // grid contains the symbols to display on the slot machine in the GUI.
     SlotMachine.Symbols[][] grid;
@@ -97,7 +95,7 @@ public class GameDirector {
      * their save.
      */
     public void onAbandonSave() {
-        // saveManager.deleteSave();
+        save.deleteSave();
     }
     
     // ----- RANDOM NUMBER GENERATOR CLASS INTERACTIONS -----
@@ -191,5 +189,26 @@ public class GameDirector {
      */
     public boolean onPurchaseItem(int itemIndex) {
         return false;
+    }
+    
+    public SaveData createSaveData() {
+        SaveData data = new SaveData();
+
+        // Player
+        data.money = player.getMoney();
+        data.debt = player.getDebt();
+
+        data.inventoryItemIDs = new ArrayList<>();
+        
+        // Shop
+        data.shopItemIDs = new ArrayList<>();
+        for (Item item : itemShop.getCurrentStock()) {
+            data.shopItemIDs.add(item.getID());
+        }
+
+        // RNG
+        data.rngSeed = getCurrentSeed();
+
+        return data;
     }
 }
