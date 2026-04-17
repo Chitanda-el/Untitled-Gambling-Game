@@ -5,6 +5,8 @@ package game;
 import util.*;
 import java.util.Date;  // For if the user doesn't provide their own seed.
 import java.util.ArrayList;
+import java.util.List;
+import domain.items.*;
 
 import domain.*;
 import java.util.Scanner;
@@ -74,6 +76,9 @@ public class GameDirector {
         
         // Create Player object
         player = new Player(STARTING_MONEY, INITIAL_DEBT);
+        
+        List<Item> allItems = createAllItemsList();
+        itemShop = new ItemShop(rng, allItems);
     }
     
     // ----- --- ------------ ----- --- ------------ ----- --- ------------ -----
@@ -191,6 +196,17 @@ public class GameDirector {
         return false;
     }
     
+    private List<Item> createAllItemsList() {
+        List<Item> items = new ArrayList<>();
+        
+        items.add(new BottomRowPatternUnlock());
+        items.add(new TopRowPatternUnlock());
+        items.add(new LeftColumnPatternUnlock());
+        items.add(new RightColumnPatternUnlock());
+        
+        return items;
+    }
+    
     public SaveData createSaveData() {
         SaveData data = new SaveData();
 
@@ -210,5 +226,21 @@ public class GameDirector {
         data.rngSeed = getCurrentSeed();
 
         return data;
+    }
+    
+    public void restoreFromSave(SaveData data) {
+        // Player
+        player.setMoney(data.money);
+        player.setDebt(data.debt);
+        for (int id : data.inventoryItemIDs) {
+        //    player.addItem(itemShop.createItem(id));
+        }
+        // RNG
+        this.rng = new RandomNumGenerator(data.rngSeed);
+        // Shop
+        for (int id : data.shopItemIDs) {
+        //    itemShop.addItem(itemShop.createItem(id));
+        }
+    }
     }
 }
