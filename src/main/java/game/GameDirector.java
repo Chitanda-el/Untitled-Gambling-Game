@@ -242,5 +242,5 @@ public class GameDirector {
         //    itemShop.addItem(itemShop.createItem(id));
         }
     }
-    }
 }
+
