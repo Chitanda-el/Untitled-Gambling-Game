@@ -181,7 +181,7 @@ public class ItemShop {
      * @return the actual price in currency
      */
     private int calculateItemPrice(Item item) {
-        int basePrice = getItemBasePrice(item);
+        int basePrice = item.getCost();
         
         // Apply multiplier and cap at maximum
         double multipliedPrice = basePrice * currentPriceMultiplier;
@@ -191,27 +191,6 @@ public class ItemShop {
         return Math.max(1, finalPrice);
     }
     
-    /**
-     * Gets the base price for an item.
-     * Different items can have different base prices based on their type.
-     * 
-     * @param item the item to price
-     * @return base price in currency
-     */
-    private int getItemBasePrice(Item item) {
-        String itemName = item.getName().toLowerCase();
-        
-        // Price based on item type/name
-        if (itemName.contains("bottom") || itemName.contains("top")) {
-            return 40;  // Row-specific unlocks
-        } else if (itemName.contains("left") || itemName.contains("right") || itemName.contains("middle")) {
-            return 45;  // Column-specific unlocks
-        } else if (itemName.contains("analyzer")) {
-            return 50;  // More expensive items
-        } else {
-            return 35;  // Default price for other items
-        }
-    }
     
     /**
      * Increments the purchase counter and updates the price multiplier.

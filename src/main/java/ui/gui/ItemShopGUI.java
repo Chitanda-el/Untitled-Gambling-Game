@@ -145,8 +145,8 @@ public class ItemShopGUI extends JPanel {
     
     private void layoutComponents() {
         moneyLabel.setBounds(1280 - 250, 20, 230, 40);
-        backButton.setBounds(30, 620, 250, 50);
-        rerollButton.setBounds(1280 - 200, 620, 170, 50);
+        backButton.setBounds(30, 620, 350, 50);
+        rerollButton.setBounds(1280 - 250, 620, 200, 50);
         scrollPane.setBounds(100, 80, 1080, 500);
     }
     
@@ -345,9 +345,13 @@ public class ItemShopGUI extends JPanel {
         return "right_tight";
     } else if (name.contains("top") || name.contains("analyzer")) {
         return "top_analyzer";
+    } else if (name.contains("ascend") || name.contains("ladder")){
+        return "ascend_ladder";
+    } else if (name.contains("hell") || name.contains("stair")){
+        return "hell_stair";
     } else {
         // Default: convert name to lowercase with underscores
-        return name.toLowerCase().replace(" ", "_").replace("!", "").replace("x", "");
+        return "default_item";
     }
 }
     
