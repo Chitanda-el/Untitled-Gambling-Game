@@ -38,6 +38,10 @@ public class Player {
         this.shopMoney += amount;
     }
     
+    public void setMoney(int amount) {
+        this.shopMoney = amount;
+    }
+    
     // GETTER: return's the player's current money
     public int getMoney() {
         return shopMoney;
@@ -61,6 +65,13 @@ public class Player {
     public void addItem(Item item) {
         inventory.add(item);
     }
+    
+    public List<Integer> getInventoryIDs() {
+        List<Integer> ids = new ArrayList<>();
+        for (Item i : inventory) ids.add(i.getID());
+        return ids;
+    }
+    
 }
     
     // TODO: getInventory()
