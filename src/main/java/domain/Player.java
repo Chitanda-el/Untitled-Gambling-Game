@@ -1,5 +1,6 @@
 package domain;
 
+import domain.items.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,41 +33,37 @@ public class Player {
 
 
     // ----- MONEY ----- MONEY ----- MONEY ----- MONEY ----- MONEY ----- 
-    // Mutator: that modifies the player's money
+    // SETTER: adds to the player's money
     public void addMoney(int amount) {
         this.shopMoney += amount;
     }
     
-    public void spendMoney(int amount) {
-        this.shopMoney -= amount;
-    }
-    
-    // Accessor: return's the player's current money
+    // GETTER: return's the player's current money
     public int getMoney() {
         return shopMoney;
     }
     // ----- END\MONEY ----- END\MONEY ----- END\MONEY ----- END\MONEY -----
     
     // ----- DEBT ----- DEBT ----- DEBT ----- DEBT ----- DEBT ----- DEBT -----
-    // Mutator: sets the player's new debt requirement
+    // SETTER: sets the player's new debt requirement
     public void setDebt(int newDebtRequirement) {
         this.debt = newDebtRequirement;
     }
     
-    // Accessor: returns the player's current outstanding debt
+    // GETTER: returns the player's current outstanding debt
     public int getDebt() {
         return debt;
     }
     // ----- END\DEBT ----- END\DEBT ----- END\DEBT ----- END\DEBT -----
     
     // ----- INVENTORY ----- INVENTORY ----- INVENTORY ----- INVENTORY -----
-    // Mutator: adds an item to the player's inventory
+    // SETTER: adds an item to the player's inventory
     public void addItem(Item item) {
         inventory.add(item);
     }
+}
     
     // TODO: getInventory()
     // returns the items in the player inventory. How this is handled
     // varies depending on how Items is handled.
     // ----- END\INVENTORY ----- END\INVENTORY ----- END\INVENTORY ----- 
-}

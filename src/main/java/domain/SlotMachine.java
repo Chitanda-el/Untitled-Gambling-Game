@@ -67,33 +67,87 @@ public class SlotMachine {
     /**
      * Evaluates the grid for winning patterns.
      * 
-     * Checks for three-of-a-kind. it returns 1 if no winning pattern is
-     * detected and increments for each winning pattern detected.
+     * Checks for three-of-a-kind in the middle row, and other rows/columns as
+     * items permit. It returns 1 if no winning pattern is detected and
+     * increments for each winning pattern detected.
      * 
      * @param grid to be evaluated for patterns.
-     * @return returns 1 if no winning pattern is detected and increments by
+     * @return returns -1 if no winning pattern is detected and increments by
      *         1 for each winning pattern. 
      * 
      * TODO: Check player inventory for unlocked patterns and check those too.
      * Potentially collaborate with the inventory to check for
      * weighted patterns or symbols.
      */
-    public int evaluatePatterns(Symbols[][] grid) {
+    private int evaluatePatterns(Symbols[][] grid) {
         int multiplier = 1;
-        if (grid[1][0] == grid[1][1] && grid[1][1] == grid[1][2]) { multiplier++; }
         
-        return multiplier;
+        multiplier += standardPattern(grid);
+        
+        if (multiplier == 1) {
+            return -1;
+        } else {
+            return multiplier;
+        }
+    }
+    
+    // ----- PATTERNS TO EVALUATE ----- PATTERNS TO EVALUATE ----- 
+    
+    /**
+     * Evaluate the center row for matching patterns.
+     * 
+     * @param grid of symbols to evaluate.
+     * @return 0 if no matching patterns were found, 1 if they were.
+     */
+    private int standardPattern(Symbols[][] grid) {
+        int localMultiplier = 0;
+        if (grid[1][0] == grid[1][1] && grid[1][1] == grid[1][2]) {
+            localMultiplier++;
+        }
+        
+        return localMultiplier;
+    }
+    
+     /**
+     * Evaluate the top row for matching patterns.
+     * 
+     * @param grid of symbols to evaluate.
+     * @return 0 if no matching patterns were found, 1 if they were.
+     */
+    private int topRowPattern(Symbols[][] grid) {
+        int localMultiplier = 0;
+        if (grid[0][0] == grid[0][1] && grid[0][1] == grid[0][2]) {
+            localMultiplier++;
+        }
+        
+        return localMultiplier;
+    }
+    
+    /**
+     * Evaluate the bottom row for matching patterns.
+     * 
+     * @param grid of symbols to evaluate.
+     * @return 0 if no matching patterns were found, 1 if they were.
+     */
+    private int bottomRowPattern(Symbols[][] grid) {
+        int localMultiplier = 0;
+        if (grid[2][0] == grid[2][1] && grid[2][1] == grid[2][2]) {
+            localMultiplier++;
+        }
+        
+        return localMultiplier;
     }
     
     /**
      * Returns the amount of money the player has won.
      * 
-     * @param multiplier integer multiplier on original bet calculated by
-     *                   evaluatePatterns()
+     * 
      * @param bet integer bet placed by the player
      * @return the amount of money the player won
      */
-    public int calculatePayout(int multiplier, int bet) {
+    public int calculatePayout(Symbols[][] grid, int bet) {
+        // integer multiplier on original bet calculated by evaluatePatterns()
+        int multiplier = evaluatePatterns(grid);
         return bet*multiplier;
     }    
 }

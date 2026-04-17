@@ -5,8 +5,9 @@ package game;
 import util.RandomNumGenerator;
 import java.util.Date;  // For if the user doesn't provide their own seed.
 import java.util.List;
+
 import domain.*;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 // GUI Elements and Dependencies
 import ui.gui.MainWindow;
@@ -27,8 +28,14 @@ public class GameDirector {
     // ----- CONSTANTS ----- CONSTANTS ----- CONSTANTS ----- CONSTANTS ----- 
     // ----- --------- ----- --------- ----- --------- ----- --------- -----
     
-    private static final int STARTING_MONEY = 0;
-    private static final int INITIAL_DEBT = 0; // TO BE DETERMINED
+    // Starting shop money
+    private static final int STARTING_MONEY = 10;
+    
+    // Starting debt amount
+    private static final int INITIAL_DEBT = 100;
+    
+    // Standard amount by which to multiply debt each time the requirement is met.
+    private static final int STANDARD_DEBT_SCALE = 10;
     
     // ----- ------------ ----- ------------ ----- ------------ -----
     // ----- DEPENDENCIES ----- DEPENDENCIES ----- DEPENDENCIES -----
@@ -41,6 +48,10 @@ public class GameDirector {
     
     private SlotMachine slotMachine; // Reference to the SlotMachine object.
     private MainWindow  window;      // Reference to the MainWindow object.
+    
+    // Reference to the Player object.
+    private Player player;
+    
     //private ItemShop           itemShop;
     //private GameEventManager   eventManager;
     
@@ -61,6 +72,9 @@ public class GameDirector {
         
         // Create SlotMachine Object
         slotMachine = new SlotMachine(rng);
+        
+        // Create Player object
+        player = new Player(STARTING_MONEY, INITIAL_DEBT);
     }
     
     // ----- --- ------------ ----- --- ------------ ----- --- ------------ -----
@@ -70,11 +84,11 @@ public class GameDirector {
     // ----- GENERAL USER INPUTS -----
     
     /**
-     * This function will handle "setting up" the game once the player selects
-     * the play button.
+     * This function handles setting up SlotMachine and Player objects once the
+     * once the player selects the play button.
      */
     public void onStartGame() {
-        onSpin();
+
     }
     
     /**
@@ -114,19 +128,38 @@ public class GameDirector {
      * 1. Spins the slot machine
      * 2. Updates the grid displayed.
      */
-    public void onSpin() {
-        grid = slotMachine.spin();
-        window.getSlotMachineGUI().updateSlotGrid(grid);
+    public void onSpin(int bet) {
+        if (bet <= player.getMoney() && bet >= 0) {
+            grid = slotMachine.spin();                          // Generate grid
+            window.getSlotMachineGUI().updateSlotGrid(grid);    // Display grid
+            
+            int payout = slotMachine.calculatePayout(grid, bet);
+            player.addMoney(payout);
+        }
+        
+        // If the amount of money the player has exceeds the amount of debt
+        // they have, then subtract the current debt from their current money
+        // and multiply the amount of debt owed by STANDARD_DEBT_SCALE.
+        if (player.getMoney() >= player.getDebt()) {
+            player.addMoney((player.getDebt())*(-1));
+            int newDebt = player.getDebt()*STANDARD_DEBT_SCALE;
+            player.setDebt(newDebt);
+        }
     }
     
+    // TEMPORARY FOR TESTING GUI TEMPORARY FOR TESTING GUI
+    public void onSpin() {
+
+    }
+        
     // ----- PLAYER CLASS INTERACTIONS -----
     
     public int getPlayerMoney() {
-        return 0;
+        return player.getMoney();
     }
     
     public int getPlayerDebt() {
-        return 0;
+        return player.getDebt();
     }
     
     // ----- ITEM SHOP CLASS INTERACTIONS -----
