@@ -10,7 +10,7 @@ import domain.items.PatternUnlock;
  */
 public class DescendingDiagPatternUnlock extends PatternUnlock {
     
-    private static final int ITEM_ID = 4;
+    private static final int ITEM_ID = 5;
     private static final String NAME = "Stairs to Hell";
     private static final String DESCRIPTION =
               "These stairs remind both you and the cool ducks inside of the "

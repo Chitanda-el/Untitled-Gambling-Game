@@ -10,7 +10,7 @@ import domain.items.PatternUnlock;
  */
 public class AscendingDiagPatternUnlock extends PatternUnlock {
     
-    private static final int ITEM_ID = 4;
+    private static final int ITEM_ID = 6;
     private static final String NAME = "Ladder";
     private static final String DESCRIPTION =
               "This is a ladder. It can be used to climb things. It also "

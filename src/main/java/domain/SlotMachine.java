@@ -4,12 +4,13 @@ package domain;
 // ----- COLLABORATORS ----- COLLABORATORS -----
 // ----- ------------- ----- ------------- -----
 
-import domain.items.PatternUnlocks.*;
+// Used to randomize spins.
 import util.RandomNumGenerator;
 
 // Collaborates with Item subclasses to allow the player to unlock 
 // additional winning patterns.
 import domain.items.*;
+import domain.items.PatternUnlocks.*;
 
 /**
  * Represents the 3x3 slot machine which is the core of the game.
@@ -92,17 +93,28 @@ public class SlotMachine {
     }
     
     /**
+     * Returns the amount of money the player has won.
+     * 
+     * @param grid passed to evaluatePatterns() to check whether the player has won.
+     * @param bet integer bet placed by the player.
+     * @param player passed to evaluatePatterns() to check their inventory.
+     * @return the amount of money the player won.
+     */
+    public int calculatePayout(Symbols[][] grid, int bet, Player player) {
+        int multiplier = evaluatePatterns(grid, player);
+        return bet * multiplier;
+    }
+    
+    /**
      * Evaluates the grid for winning patterns.
      * 
      * Checks for three-of-a-kind in the middle row (standardPattern), and other
      * rows/columns as items permit. It increments multiplier by one for each
-     * winning pattern detected and returns it, or returns -1 if no winning
-     * pattern is detected.
+     * winning pattern detected and returns it.
      * 
      * @param grid to be evaluated for patterns.
-     * @return returns -1 if no winning pattern is detected or multiplier
-     *         (which increments by 1 for each winning pattern) if one is
-     *         detected. 
+     * @return returns multiplier, which increments by 1 for each winning
+     *         pattern.detected. 
      */
     private int evaluatePatterns(Symbols[][] grid, Player player) {
         
@@ -122,7 +134,7 @@ public class SlotMachine {
             if (patternToEvaluate != null) {
                 multiplier += patternToEvaluate.evaluatePattern(grid);
             }
-        };
+        }
         
         if (multiplier == 1) {
             return -1;
@@ -144,6 +156,10 @@ public class SlotMachine {
         }
         return localMultiplier;
     }
+
+    // ----- --- ---------- ----- --- ---------- -----
+    // ----- BET MANAGEMENT ----- BET MANAGEMENT -----
+    // ----- --- ---------- ----- --- ---------- -----
     
     /**
      * Returns the amount of money the player has won.

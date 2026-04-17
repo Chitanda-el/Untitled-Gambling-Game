@@ -31,8 +31,10 @@ public class Player {
     // ----- MUTATORS AND ACCESSORS ----- MUTATORS AND ACCESSORS ----- 
     // ----- -------- --- --------- ----- -------- --- --------- -----
 
-
-    // ----- MONEY ----- MONEY ----- MONEY ----- MONEY ----- MONEY ----- 
+    // ----- ----- ----- ----- -----
+    // ----- MONEY ----- MONEY -----
+    // ----- ----- ----- ----- -----
+    
     // SETTER: adds to the player's money
     public void addMoney(int amount) {
         this.shopMoney += amount;
@@ -46,9 +48,12 @@ public class Player {
     public int getMoney() {
         return shopMoney;
     }
-    // ----- END\MONEY ----- END\MONEY ----- END\MONEY ----- END\MONEY -----
+
     
-    // ----- DEBT ----- DEBT ----- DEBT ----- DEBT ----- DEBT ----- DEBT -----
+    // ----- ---- ----- ---- ----- 
+    // ----- DEBT ----- DEBT -----
+    // ----- ---- ----- ---- -----
+    
     // SETTER: sets the player's new debt requirement
     public void setDebt(int newDebtRequirement) {
         this.debt = newDebtRequirement;
@@ -58,9 +63,11 @@ public class Player {
     public int getDebt() {
         return debt;
     }
-    // ----- END\DEBT ----- END\DEBT ----- END\DEBT ----- END\DEBT -----
     
-    // ----- INVENTORY ----- INVENTORY ----- INVENTORY ----- INVENTORY -----
+    // ----- --------- ----- --------- -----
+    // ----- INVENTORY ----- INVENTORY -----
+    // ----- --------- ----- --------- -----
+    
     // SETTER: adds an item to the player's inventory
     public void addItem(Item item) {
         inventory.add(item);
@@ -85,5 +92,4 @@ public class Player {
         }
         return null;
     }
-    // ----- END\INVENTORY ----- END\INVENTORY ----- END\INVENTORY ----- 
 }

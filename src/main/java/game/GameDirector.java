@@ -7,11 +7,12 @@ import java.util.Date;  // For if the user doesn't provide their own seed.
 import java.util.ArrayList;
 import java.util.List;
 
+// Domain Depndencies
 import domain.*;
 import domain.items.*;
 import domain.items.PatternUnlocks.*;
 
-// GUI Elements and Dependencies
+// GUI Dependencies
 import ui.gui.MainWindow;
 import javax.swing.SwingUtilities;
 
@@ -124,20 +125,31 @@ public class GameDirector {
         rng = new RandomNumGenerator(Long.parseLong(newSeed));
     }
     
+    // ----- ---- ------- ----- ------------ -----
     // ----- SLOT MACHINE CLASS INTERACTIONS -----
+    // ----- ---- ------- ----- ------------ -----
     
     /**
      * What happens when the spin button is pressed in the GUI?
      * 
-     * 1. Spins the slot machine
-     * 2. Updates the grid displayed.
-     * 3. Updates the players money and Debt accordingly.
+     * 1. Subtracts the bet from the player's money.
+     * 2. Spins the slot machine.
+     * 3. Updates the grid displayed.
+     * 4. Updates the players money and Debt if they won.
      */
     public void onSpin(int bet) {
         if (bet <= player.getMoney() && bet >= 0) {
-            grid = slotMachine.spin();                          // Generate grid
-            window.getSlotMachineGUI().updateSlotGrid(grid);    // Display grid
             
+            // Subract bet amount from player's money.
+            player.addMoney(bet * -1);
+            
+            // Generate grid
+            grid = slotMachine.spin();
+            
+            // Display grid
+            window.getSlotMachineGUI().updateSlotGrid(grid);
+            
+            // If the player won, give them their winnings
             int payout = slotMachine.calculatePayout(grid, bet, player);
             player.addMoney(payout);
         }
@@ -163,7 +175,10 @@ public class GameDirector {
         onSpin(5); // Temp testing while SlotMacineGUI is tested, will eventually be deprecated and slotMachineGUI will input a proper value based on the bet given.
     }
         
+    // ----- ------ ----- ------------ -----
     // ----- PLAYER CLASS INTERACTIONS -----
+    // ----- ------ ----- ------------ -----
+    
     
     public int getPlayerMoney() {
         return player.getMoney();
@@ -177,7 +192,10 @@ public class GameDirector {
     public Player getPlayer() {
     return player;
     }
+    
+    // ----- ---- ---- ----- ------------ -----
     // ----- ITEM SHOP CLASS INTERACTIONS -----
+    // ----- ---- ---- ----- ------------ -----
     
     public void onRerollShop() {
         
@@ -198,14 +216,21 @@ public class GameDirector {
     
     private List<Item> createAllItemsList() {
         List<Item> items = new ArrayList<>();
-        
+
         items.add(new BottomRowPatternUnlock());
         items.add(new TopRowPatternUnlock());
         items.add(new LeftColumnPatternUnlock());
         items.add(new RightColumnPatternUnlock());
-        
+        items.add(new MiddleColumnPatternUnlock());
+        items.add(new AscendingDiagPatternUnlock());
+        items.add(new DescendingDiagPatternUnlock());
+
         return items;
     }
+    
+    // ----- --------- ----- --------- -----
+    // ----- SAVE/LOAD ----- SAVE/LOAD ----- 
+    // ----- --------- ----- --------- -----
     
     public SaveData createSaveData() {
         SaveData data = new SaveData();
