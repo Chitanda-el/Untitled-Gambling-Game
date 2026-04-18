@@ -260,6 +260,10 @@ public class GameDirector {
     }
     
     public void restoreFromSave(SaveData data) {
+        
+        player.clearInventory();
+        itemShop.clearStock();
+        
         // Player
         player.setMoney(data.money);
         player.setDebt(data.debt);
