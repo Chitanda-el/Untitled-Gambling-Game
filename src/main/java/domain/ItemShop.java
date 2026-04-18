@@ -1,7 +1,7 @@
 // ItemShop.java
 package domain;
 
-import domain.items.Item;
+import domain.items.*;
 import util.RandomNumGenerator;
 import java.util.ArrayList;
 import java.util.List;
@@ -262,6 +262,41 @@ public class ItemShop {
      */
     public boolean isEmpty() {
         return currentStock.isEmpty();
+    }
+    
+    public void clearStock() {
+        currentStock.clear();
+    }
+    
+    /**
+     * This is probably a really bad way to go about this. I do not care.
+     * Creates an Item based on the ID passed into it.
+     * @param id The ID of the desired item.
+     * @return The created item.
+     */
+    public Item createItem(int id) {
+        switch(id) {
+            case 0:
+                return new domain.items.PatternUnlocks.BottomRowPatternUnlock();
+            case 1:
+                return new domain.items.PatternUnlocks.LeftColumnPatternUnlock();
+            case 2:
+                return new domain.items.PatternUnlocks.RightColumnPatternUnlock();
+            case 3:
+                return new domain.items.PatternUnlocks.TopRowPatternUnlock();
+            case 4: 
+                return new domain.items.PatternUnlocks.MiddleColumnPatternUnlock();
+            case 5:
+                return new domain.items.PatternUnlocks.DescendingDiagPatternUnlock();
+            case 6:
+                return new domain.items.PatternUnlocks.AscendingDiagPatternUnlock();
+            default:
+                throw new IllegalArgumentException("Unknown item ID: " + id);
+        }                
+    }
+    
+    public void addItem(Item i) {
+        currentStock.add(i);
     }
     
     // ----- DEBUG/TESTING -----
