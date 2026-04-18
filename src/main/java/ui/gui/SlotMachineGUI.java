@@ -2,27 +2,17 @@
 package ui.gui;
 
 import domain.SlotMachine.Symbols;
+import domain.items.Item;
+import domain.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Slot Machine screen for Untitled Gambling Game.
- * 
- * This is the main gameplay screen. Features:
- * - 3x3 grid displaying slot symbols (images from assets/symbols/)
- * - SPIN button: Triggers a new spin via GameDirector.onSpin()
- * - Money display: Shows player's current currency
- * - Debt display: Shows outstanding debt that must be repaid
- * - Bet display: Shows current bet amount with controls to adjust
- * - Bet adjustment buttons: +5%, -5%, ALL IN, and manual bet input
- * - ITEMS tab (pullout on left): Shows purchased items in a 2x4 grid
- * - OPEN SHOP button: Navigates to Item Shop screen
  */
 public class SlotMachineGUI extends JPanel {
     
@@ -44,7 +34,6 @@ public class SlotMachineGUI extends JPanel {
     private JLabel backgroundImage;
     private boolean pulloutVisible = false;
     
-    private List<String> inventoryItems;
     private Map<Symbols, ImageIcon> symbolImages;
     private ImageIcon defaultSymbolIcon;
     
@@ -52,21 +41,18 @@ public class SlotMachineGUI extends JPanel {
     private static final int DEFAULT_BET = 10;
     private static final int MIN_BET = 1;
     
-    // Path to assets folder
     private static final String ASSETS_PATH = System.getProperty("user.dir") + "/assets/";
     private static final int SYMBOL_IMAGE_SIZE = 100;
     
-    // Pullout tab constants - 2 columns, 4 rows (8 items max visible)
     private static final int PULLOUT_COLUMNS = 2;
     private static final int PULLOUT_ROWS = 4;
     private static final int ITEM_IMAGE_SIZE = 100;
-    private static final int PULLOUT_CELL_SIZE = 110; // 100px image + 10px padding
-    private static final int PULLOUT_WIDTH = PULLOUT_COLUMNS * PULLOUT_CELL_SIZE + 20; // ~240px
-    private static final int PULLOUT_HEIGHT = PULLOUT_ROWS * PULLOUT_CELL_SIZE + 20; // ~460px
+    private static final int PULLOUT_CELL_SIZE = 110;
+    private static final int PULLOUT_WIDTH = PULLOUT_COLUMNS * PULLOUT_CELL_SIZE + 20;
+    private static final int PULLOUT_HEIGHT = PULLOUT_ROWS * PULLOUT_CELL_SIZE + 20;
     
     public SlotMachineGUI(MainWindow parent) {
         this.parent = parent;
-        this.inventoryItems = new ArrayList<>();
         this.symbolImages = new HashMap<>();
         this.currentBet = DEFAULT_BET;
         loadBackgroundImage();
@@ -76,10 +62,6 @@ public class SlotMachineGUI extends JPanel {
         setupPulloutTab();
     }
     
-    /**
-     * Loads the background image for the slot machine screen.
-     * Looks for assets/ui/slot_bg.png or slot_bg.jpg
-     */
     private void loadBackgroundImage() {
         ImageIcon bgImage = loadImage(ASSETS_PATH + "ui/slot_bg.png");
         if (bgImage == null) {
@@ -99,9 +81,6 @@ public class SlotMachineGUI extends JPanel {
         }
     }
     
-    /**
-     * Loads all symbol images from assets/symbols/ folder.
-     */
     private void loadSymbolImages() {
         defaultSymbolIcon = loadAndScaleImage(ASSETS_PATH + "symbols/default.png", SYMBOL_IMAGE_SIZE, SYMBOL_IMAGE_SIZE);
         
@@ -168,7 +147,6 @@ public class SlotMachineGUI extends JPanel {
             }
         }
         
-        // Money and Debt Displays
         moneyLabel = new JLabel("Money: $0");
         moneyLabel.setFont(new Font("Arial", Font.BOLD, 24));
         moneyLabel.setForeground(Color.GREEN);
@@ -177,7 +155,6 @@ public class SlotMachineGUI extends JPanel {
         debtLabel.setFont(new Font("Arial", Font.BOLD, 24));
         debtLabel.setForeground(Color.RED);
         
-        // Bet Display
         betLabel = new JLabel("Bet: $" + currentBet, SwingConstants.CENTER);
         betLabel.setFont(new Font("Arial", Font.BOLD, 20));
         betLabel.setForeground(Color.CYAN);
@@ -186,21 +163,18 @@ public class SlotMachineGUI extends JPanel {
         betLabel.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
         betLabel.setPreferredSize(new Dimension(120, 40));
         
-        // ITEMS TAB BUTTON
         pullTabButton = new JButton("Items");
         pullTabButton.setFont(new Font("Arial", Font.BOLD, 16));
         pullTabButton.setBackground(new Color(100, 100, 150));
         pullTabButton.setPreferredSize(new Dimension(100, 45));
         pullTabButton.addActionListener(e -> togglePullout());
         
-        // OPEN SHOP BUTTON
         openShopButton = new JButton("OPEN SHOP");
         openShopButton.setFont(new Font("Arial", Font.BOLD, 18));
         openShopButton.setBackground(new Color(0, 150, 200));
         openShopButton.setPreferredSize(new Dimension(180, 50));
         openShopButton.addActionListener(e -> parent.switchTo(MainWindow.Screen.ITEM_SHOP));
         
-        // Bet control buttons
         betUpButton = new JButton("+5%");
         betUpButton.setFont(new Font("Arial", Font.BOLD, 14));
         betUpButton.setBackground(new Color(0, 100, 0));
@@ -246,7 +220,6 @@ public class SlotMachineGUI extends JPanel {
         inputBetButton.setForeground(Color.WHITE);
         inputBetButton.addActionListener(e -> promptForBetAmount());
         
-        // SPIN BUTTON
         spinButton = new JButton("SPIN");
         spinButton.setFont(new Font("Arial", Font.BOLD, 20));
         spinButton.setBackground(new Color(200, 150, 0));
@@ -257,7 +230,6 @@ public class SlotMachineGUI extends JPanel {
             }
         });
         
-        // Add all components to content panel
         contentPanel.add(slotGridPanel);
         contentPanel.add(moneyLabel);
         contentPanel.add(debtLabel);
@@ -272,37 +244,21 @@ public class SlotMachineGUI extends JPanel {
     }
     
     private void layoutComponents() {
-        int centerX = (1280 - 400) / 2;  // Center of slot grid (440 to 840)
+        int centerX = (1280 - 400) / 2;
         
-        // Slot grid - stays centered
         slotGridPanel.setBounds(centerX, 100, 400, 400);
-        
-        // Money and Debt displays - top right
         moneyLabel.setBounds(1280 - 220, 20, 200, 40);
         debtLabel.setBounds(1280 - 220, 70, 200, 40);
-        
-        // Bet display - below slot grid, centered
         betLabel.setBounds(centerX + 140, 520, 120, 40);
-        
-        // Bet control buttons
         betDownButton.setBounds(centerX + 40, 520, 80, 40);
         betUpButton.setBounds(centerX + 290, 520, 80, 40);
         allInButton.setBounds(centerX + 40, 575, 80, 40);
         inputBetButton.setBounds(centerX + 290, 575, 80, 40);
-        
-        // Spin button
         spinButton.setBounds(centerX + 150, 570, 100, 50);
-        
-        // Open Shop button - bottom right
         openShopButton.setBounds(1280 - 200, 620, 180, 50);
-        
-        // Items tab button - moved up 30 pixels (Y=40)
         pullTabButton.setBounds(10, 40, 100, 45);
     }
-
-    /**
-     * Prompts the user to enter a custom bet amount
-     */
+    
     private void promptForBetAmount() {
         String input = JOptionPane.showInputDialog(this, 
             "Enter bet amount (min: $" + MIN_BET + "):", 
@@ -331,6 +287,9 @@ public class SlotMachineGUI extends JPanel {
                 }
                 
                 currentBet = newBet;
+                if (parent.getGameDirector() != null && parent.getGameDirector().getSlotMachine() != null) {
+                    parent.getGameDirector().getSlotMachine().setCurrentBet(currentBet);
+                }
                 updateBetDisplay();
                 
             } catch (NumberFormatException e) {
@@ -362,8 +321,6 @@ public class SlotMachineGUI extends JPanel {
         pulloutPanel = new JPanel();
         pulloutPanel.setBackground(new Color(60, 60, 80));
         pulloutPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
-        
-        // GridLayout: 4 rows, 2 columns (rows first, then columns)
         pulloutPanel.setLayout(new GridLayout(PULLOUT_ROWS, PULLOUT_COLUMNS, 10, 10));
         pulloutPanel.setBounds(-PULLOUT_WIDTH, 100, PULLOUT_WIDTH, PULLOUT_HEIGHT);
         
@@ -390,46 +347,30 @@ public class SlotMachineGUI extends JPanel {
         refreshPulloutDisplay();
     }
     
-    public void addInventoryItem(String itemName) {
-        inventoryItems.add(itemName);
-        refreshPulloutDisplay();
-    }
-    
-    public void addInventoryItems(List<String> items) {
-        inventoryItems.addAll(items);
-        refreshPulloutDisplay();
-    }
-    
-    public void removeInventoryItem(int index) {
-        if (index >= 0 && index < inventoryItems.size()) {
-            inventoryItems.remove(index);
-            refreshPulloutDisplay();
-        }
-    }
-    
-    public void clearInventory() {
-        inventoryItems.clear();
-        refreshPulloutDisplay();
-    }
-    
-    public List<String> getInventoryItems() {
-        return inventoryItems;
-    }
-    
     private void refreshPulloutDisplay() {
         pulloutPanel.removeAll();
         
-        // Display up to 8 items (2 columns x 4 rows)
+        // Get inventory from Player via GameDirector
+        java.util.List<Item> playerInventory = null;
+        if (parent.getGameDirector() != null && parent.getGameDirector().getPlayer() != null) {
+            playerInventory = parent.getGameDirector().getPlayer().getInventory();
+        }
+        
         int maxItems = PULLOUT_COLUMNS * PULLOUT_ROWS;
         
-        for (int i = 0; i < maxItems; i++) {
-            if (i < inventoryItems.size()) {
-                // Show actual item
-                String item = inventoryItems.get(i);
-                JPanel itemPanel = createItemPanel(item);
-                pulloutPanel.add(itemPanel);
-            } else {
-                // Show empty slot
+        if (playerInventory != null) {
+            for (int i = 0; i < maxItems; i++) {
+                if (i < playerInventory.size()) {
+                    Item item = playerInventory.get(i);
+                    JPanel itemPanel = createItemPanel(item);
+                    pulloutPanel.add(itemPanel);
+                } else {
+                    JPanel emptyPanel = createEmptyPanel();
+                    pulloutPanel.add(emptyPanel);
+                }
+            }
+        } else {
+            for (int i = 0; i < maxItems; i++) {
                 JPanel emptyPanel = createEmptyPanel();
                 pulloutPanel.add(emptyPanel);
             }
@@ -439,13 +380,12 @@ public class SlotMachineGUI extends JPanel {
         pulloutPanel.repaint();
     }
     
-    private JPanel createItemPanel(String itemName) {
+    private JPanel createItemPanel(Item item) {
         JPanel itemPanel = new JPanel(new BorderLayout());
         itemPanel.setBackground(new Color(80, 80, 100));
         itemPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         
-        // Load and display 100x100 image
-        String fileName = itemName.toLowerCase().replace(" ", "_").replace("!", "").replace("x", "");
+        String fileName = getItemAssetFileName(item);
         ImageIcon itemIcon = loadAndScaleImage(ASSETS_PATH + "items/" + fileName + ".png", ITEM_IMAGE_SIZE, ITEM_IMAGE_SIZE);
         if (itemIcon == null || itemIcon.getIconWidth() <= 0) {
             itemIcon = loadAndScaleImage(ASSETS_PATH + "items/default_item.png", ITEM_IMAGE_SIZE, ITEM_IMAGE_SIZE);
@@ -454,11 +394,10 @@ public class SlotMachineGUI extends JPanel {
         JLabel imageLabel = new JLabel(itemIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         imageLabel.setVerticalAlignment(SwingConstants.CENTER);
-        imageLabel.setToolTipText(itemName);
+        imageLabel.setToolTipText(item.getName());
         itemPanel.add(imageLabel, BorderLayout.CENTER);
         
-        // Add item name label below the image
-        JLabel nameLabel = new JLabel(itemName, SwingConstants.CENTER);
+        JLabel nameLabel = new JLabel(item.getName(), SwingConstants.CENTER);
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 10));
         nameLabel.setForeground(Color.WHITE);
         itemPanel.add(nameLabel, BorderLayout.SOUTH);
@@ -466,12 +405,31 @@ public class SlotMachineGUI extends JPanel {
         return itemPanel;
     }
     
+    private String getItemAssetFileName(Item item) {
+        String name = item.getName().toLowerCase();
+        
+        if (name.contains("bottom") || name.contains("bell")) {
+            return "bottom_bell";
+        } else if (name.contains("left") || name.contains("leech")) {
+            return "left_leech";
+        } else if (name.contains("right") || name.contains("tight")) {
+            return "right_tight";
+        } else if (name.contains("top") || name.contains("analyzer")) {
+            return "top_analyzer";
+        } else if (name.contains("ascend") || name.contains("ladder")) {
+            return "ascend_ladder";
+        } else if (name.contains("hell") || name.contains("stair")) {
+            return "hell_stair";
+        } else {
+            return "default_item";
+        }
+    }
+    
     private JPanel createEmptyPanel() {
         JPanel emptyPanel = new JPanel(new BorderLayout());
         emptyPanel.setBackground(new Color(50, 50, 70));
         emptyPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         
-        // Add placeholder text
         JLabel emptyLabel = new JLabel("Empty", SwingConstants.CENTER);
         emptyLabel.setFont(new Font("Arial", Font.ITALIC, 10));
         emptyLabel.setForeground(Color.LIGHT_GRAY);
@@ -479,7 +437,6 @@ public class SlotMachineGUI extends JPanel {
         
         return emptyPanel;
     }
-    
     
     public void updateSlotGrid(Symbols[][] grid) {
         if (grid == null) return;
@@ -500,26 +457,29 @@ public class SlotMachineGUI extends JPanel {
         }
     }
     
-public void refreshDisplay() {
-    if (parent.getGameDirector() != null) {
-        moneyLabel.setText("Money: $" + parent.getGameDirector().getPlayerMoney());
-        debtLabel.setText("Debt Owed: $" + parent.getGameDirector().getPlayerDebt());
-        
-        // ONLY adjust bet if current bet exceeds player's money
-        int playerMoney = parent.getGameDirector().getPlayerMoney();
-        if (currentBet > playerMoney && playerMoney > 0) {
-            currentBet = playerMoney;
-            parent.getGameDirector().getSlotMachine().setCurrentBet(currentBet);
-            updateBetDisplay();
-        } else if (playerMoney <= 0 && currentBet > MIN_BET) {
-            currentBet = MIN_BET;
-            parent.getGameDirector().getSlotMachine().setCurrentBet(currentBet);
-            updateBetDisplay();
+    public void refreshDisplay() {
+        if (parent.getGameDirector() != null) {
+            moneyLabel.setText("Money: $" + parent.getGameDirector().getPlayerMoney());
+            debtLabel.setText("Debt Owed: $" + parent.getGameDirector().getPlayerDebt());
+            
+            refreshPulloutDisplay();
+            
+            int playerMoney = parent.getGameDirector().getPlayerMoney();
+            if (currentBet > playerMoney && playerMoney > 0) {
+                currentBet = playerMoney;
+                if (parent.getGameDirector().getSlotMachine() != null) {
+                    parent.getGameDirector().getSlotMachine().setCurrentBet(currentBet);
+                }
+                updateBetDisplay();
+            } else if (playerMoney <= 0 && currentBet > MIN_BET) {
+                currentBet = MIN_BET;
+                if (parent.getGameDirector().getSlotMachine() != null) {
+                    parent.getGameDirector().getSlotMachine().setCurrentBet(currentBet);
+                }
+                updateBetDisplay();
+            }
         }
-        
-        
     }
-}
     
     public void showWinNotification(int amount) {
         JOptionPane.showMessageDialog(this, "You won $" + amount + "!");

@@ -269,8 +269,12 @@ public class ItemShopGUI extends JPanel {
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         nameLabel.setForeground(Color.WHITE);
         
-        // Item price
-        JLabel priceLabel = new JLabel("$" + (int) item.getCost(), SwingConstants.CENTER);
+        // Item price - get actual price with multiplier from ItemShop
+        int actualPrice = item.getCost(); // Default fallback
+        if (parent.getGameDirector() != null && parent.getGameDirector().getItemShop() != null) {
+            actualPrice = parent.getGameDirector().getItemShop().getItemActualPrice(item);
+        }
+        JLabel priceLabel = new JLabel("$" + actualPrice, SwingConstants.CENTER);
         priceLabel.setFont(new Font("Arial", Font.BOLD, 16));
         priceLabel.setForeground(Color.YELLOW);
         
@@ -355,6 +359,8 @@ public class ItemShopGUI extends JPanel {
         return "ascend_ladder";
     } else if (name.contains("hell") || name.contains("stair")){
         return "hell_stair";
+    } else if (name.contains("collumn") || name.contains("photo")) {
+        return "collumn_photo";
     } else {
         // Default: convert name to lowercase with underscores
         return "default_item";

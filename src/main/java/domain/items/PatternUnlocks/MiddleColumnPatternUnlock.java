@@ -10,7 +10,7 @@ import domain.items.PatternUnlock;
 public class MiddleColumnPatternUnlock extends PatternUnlock {
     
     private static final int ITEM_ID = 4;
-    private static final String NAME = "Middle Column";
+    private static final String NAME = "Collumn Photo";
     private static final String DESCRIPTION =
               "The middle column can now contain a winning pattern.";
     private static final int COST = 10;

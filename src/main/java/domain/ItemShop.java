@@ -37,10 +37,10 @@ public class ItemShop {
     private static final double BASE_PRICE_MULTIPLIER = 1.0;
     
     /** How much the price multiplier increases per purchase (e.g., 0.1 = +10%) */
-    private static final double PRICE_SCALE_INCREMENT = 0.1;
+    private static final double PRICE_SCALE_INCREMENT = 0.5;
     
     /** Maximum price multiplier cap (e.g., 3.0 = 300% of base price) */
-    private static final double MAX_PRICE_MULTIPLIER = 3.0;
+    private static final double MAX_PRICE_MULTIPLIER = 5.0;
     
     /** Cost to reroll the shop inventory */
     private static final int REROLL_COST = 50;

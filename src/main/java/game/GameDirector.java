@@ -213,8 +213,11 @@ public class GameDirector {
      */
     public boolean onPurchaseItem(int itemIndex) {
         if (itemShop.purchaseItem(player, itemIndex)) {
+            //Refresh displays
             window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
-            window.getMainMenuGUI().refreshDisplay();
+            window.getItemShopGUI().refreshDisplay();
+            window.getSlotMachineGUI().refreshDisplay();  // This will refresh the pullout tab
+            window.getSlotMachineGUI().refreshDisplay();
             return true;
         }
         return false;

@@ -48,8 +48,7 @@ public class Player {
     public int getMoney() {
         return shopMoney;
     }
-
-    
+      
     // ----- ---- ----- ---- ----- 
     // ----- DEBT ----- DEBT -----
     // ----- ---- ----- ---- -----
@@ -73,6 +72,10 @@ public class Player {
         inventory.add(item);
     }
     
+    // GETTER: returns the players inventory
+    public List<Item> getInventory() {
+        return inventory;
+    }
     /**
      * Takes a subclass which extends Item as its argument and checks whether
      * any item which is an instance of the passed subclass is in the player's
