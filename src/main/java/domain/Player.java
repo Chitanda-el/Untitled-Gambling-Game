@@ -72,6 +72,11 @@ public class Player {
         inventory.add(item);
     }
     
+    // Clears the inventory. Useful for save/load.
+    public void clearInventory() {
+        inventory.clear();
+    }
+    
     // GETTER: returns the players inventory
     public List<Item> getInventory() {
         return inventory;
