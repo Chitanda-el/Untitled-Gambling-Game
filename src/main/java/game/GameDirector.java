@@ -50,14 +50,14 @@ public class GameDirector {
     // enters a new seed.
     public RandomNumGenerator rng = new RandomNumGenerator(new Date().getTime());
     
-    private final SlotMachine slotMachine; // Reference to the SlotMachine object.
+    private SlotMachine slotMachine; // Reference to the SlotMachine object.
     private MainWindow  window;      // Reference to the MainWindow object.
-    private final ItemShop itemShop;
+    private  ItemShop itemShop;
     private final SaveManager save = new SaveManager();
     private SaveData saveData = new SaveData();
     
     // Reference to the Player object.
-    private final Player player;
+    private Player player;
     
     // grid contains the symbols to display on the slot machine in the GUI.
     SlotMachine.Symbols[][] grid;
@@ -133,8 +133,39 @@ public class GameDirector {
      * 
      * @param newSeed string or number that is converted to a long for seeding.
      */
+/**
+ * If the user enters a new seed convert it to a long and generate a new
+ * RandomNumGenerator object in place of the old one.
+ * 
+ * @param newSeed string or number that is converted to a long for seeding.
+ */
     public void setCustomSeed(String newSeed) {
-        rng = new RandomNumGenerator(Long.parseLong(newSeed));
+        try {
+            long seed = Long.parseLong(newSeed);
+        
+            // Create new RNG with the seed
+            this.rng = new RandomNumGenerator(seed);
+        
+            // Recreate domain objects with the new RNG
+            this.slotMachine = new SlotMachine(this.rng);
+        
+            // Recreate ItemShop with new RNG (preserving items)
+            List<Item> allItems = createAllItemsList();
+            this.itemShop = new ItemShop(this.rng, allItems);
+        
+            // Refresh GUI displays
+            if (window != null) {
+                window.getSlotMachineGUI().resetSlots();
+                window.getSlotMachineGUI().refreshDisplay();
+                window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
+                window.getItemShopGUI().resetBuyButtons();
+            }
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(window, 
+            "Invalid seed! Please enter a valid number.",
+            "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     // ----- ---- ------- ----- ------------ -----

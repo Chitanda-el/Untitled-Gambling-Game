@@ -42,10 +42,7 @@ public class MainMenuGUI extends JPanel {
         setLayout(new BorderLayout());
         
         // Load background image from assets/ui/main_bg.png or main_bg.jpg
-        ImageIcon bgImage = loadImage(ASSETS_PATH + "ui/main_bg.png");
-        if (bgImage == null) {
-            bgImage = loadImage(ASSETS_PATH + "ui/main_bg.jpg");
-        }
+        ImageIcon bgImage = loadImage(ASSETS_PATH + "ui/main_bg.jpg");
         
         if (bgImage != null) {
             // Scale background to fit 1280x720 window

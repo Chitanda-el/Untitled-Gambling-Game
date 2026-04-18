@@ -111,7 +111,7 @@ public class ItemShop {
      * @return true if reroll was successful (player had enough money)
      */
     public boolean rerollShop(Player player) {
-        if (player.getMoney() >= REROLL_COST) {
+        if (player.getMoney() > REROLL_COST) {
             player.addMoney(-REROLL_COST);  // Deduct cost
             refreshShop();
             return true;

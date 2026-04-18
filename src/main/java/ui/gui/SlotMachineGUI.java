@@ -419,6 +419,8 @@ public class SlotMachineGUI extends JPanel {
             return "ascend_ladder";
         } else if (name.contains("hell") || name.contains("stair")) {
             return "hell_stair";
+        } else if (name.contains("collumn") || name.contains("photo")) {
+            return "collumn_photo";
         } else {
             return "default_item";
         }

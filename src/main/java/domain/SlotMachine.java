@@ -123,7 +123,7 @@ public class SlotMachine {
         // Accumulator for number of winning patterns
         int multiplier = 1;
         
-        // Takes a reference to a PatterUnlock subclass object
+        // Takes a reference to a PatternUnlock subclass object
         PatternUnlock patternToEvaluate;
         
         // Check the middle row
