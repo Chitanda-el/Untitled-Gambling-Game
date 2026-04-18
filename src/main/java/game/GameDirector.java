@@ -93,7 +93,9 @@ public class GameDirector {
      * once the player selects the play button.
      */
     public void onStartGame() {
-
+        // Initialize game state and display
+        window.getSlotMachineGUI().refreshDisplay();
+        window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
     }
     
     /**
@@ -198,7 +200,10 @@ public class GameDirector {
     // ----- ---- ---- ----- ------------ -----
     
     public void onRerollShop() {
-        
+        if (itemShop.rerollShop(player)) {
+            window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
+            window.getMainMenuGUI().refreshDisplay();
+        }
     }
     
     public ItemShop getItemShop() {
@@ -211,6 +216,11 @@ public class GameDirector {
      * @return 
      */
     public boolean onPurchaseItem(int itemIndex) {
+        if (itemShop.purchaseItem(player, itemIndex)) {
+            window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
+            window.getMainMenuGUI().refreshDisplay();
+            return true;
+        }
         return false;
     }
     

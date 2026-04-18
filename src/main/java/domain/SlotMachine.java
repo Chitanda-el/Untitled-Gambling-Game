@@ -162,20 +162,16 @@ public class SlotMachine {
     // ----- --- ---------- ----- --- ---------- -----
     
     /**
-     * Returns the amount of money the player has won.
+     * Validates and clamps a bet amount between MIN_BET and max allowed.
      * 
-     * 
-     * @param bet integer bet placed by the player
-     * @return the amount of money the player won
+     * @param bet the requested bet amount
+     * @param maxAllowed the maximum bet allowed
+     * @return the validated bet amount
      */
-    public int calculatePayout(Symbols[][] grid, int bet, Player player) {
-        int multiplier = evaluatePatterns(grid, player);
-        return bet * multiplier;
+    private int validateBet(int bet, int maxAllowed) {
+        int validated = Math.max(bet, MIN_BET);
+        return Math.min(validated, maxAllowed);
     }
-
-    // ----- --- ---------- ----- --- ---------- -----
-    // ----- BET MANAGEMENT ----- BET MANAGEMENT -----
-    // ----- --- ---------- ----- --- ---------- -----
     
     /**
      * Gets the current bet amount.
@@ -192,9 +188,7 @@ public class SlotMachine {
      * @param bet the new bet amount (must be at least MIN_BET)
      */
     public void setCurrentBet(int bet) {
-        if (bet >= MIN_BET) {
-            this.currentBet = bet;
-        }
+        this.currentBet = validateBet(bet, Integer.MAX_VALUE);
     }
     
     /**
@@ -206,15 +200,7 @@ public class SlotMachine {
     public int increaseBetByPercent(int playerMoney) {
         int increaseAmount = (int) Math.round(playerMoney * 0.05);
         int newBet = currentBet + increaseAmount;
-        
-        if (newBet < MIN_BET) {
-            newBet = MIN_BET;
-        }
-        if (newBet > playerMoney && playerMoney > 0) {
-            newBet = playerMoney;
-        }
-        
-        this.currentBet = newBet;
+        this.currentBet = validateBet(newBet, playerMoney);
         return currentBet;
     }
     
@@ -227,12 +213,7 @@ public class SlotMachine {
     public int decreaseBetByPercent(int playerMoney) {
         int decreaseAmount = (int) Math.round(playerMoney * 0.05);
         int newBet = currentBet - decreaseAmount;
-        
-        if (newBet < MIN_BET) {
-            newBet = MIN_BET;
-        }
-        
-        this.currentBet = newBet;
+        this.currentBet = validateBet(newBet, playerMoney);
         return currentBet;
     }
     
@@ -243,7 +224,7 @@ public class SlotMachine {
      * @return the new bet amount
      */
     public int setAllInBet(int playerMoney) {
-        this.currentBet = Math.max(playerMoney, MIN_BET);
+        this.currentBet = validateBet(playerMoney, playerMoney);
         return currentBet;
     }
     
