@@ -34,16 +34,28 @@ public class Player {
     // ----- MONEY ----- MONEY -----
     // ----- ----- ----- ----- -----
     
-    // SETTER: adds to the player's money
+    /**
+     * Adds the amount of money passed to the player's money.
+     * 
+     * @param amount of money (positive or negative) to add to shopMoney.
+     */
     public void addMoney(int amount) {
         this.shopMoney += amount;
     }
     
+    /**
+     * Sets the amount of money that the player has.
+     * Server a function for save/load.
+     * 
+     * @param amount of money to set shopMoney to.
+     */
     public void setMoney(int amount) {
         this.shopMoney = amount;
     }
     
-    // GETTER: return's the player's current money
+    /**
+     * @return the amount of money that the player currently has.
+     */
     public int getMoney() {
         return shopMoney;
     }
@@ -52,12 +64,18 @@ public class Player {
     // ----- DEBT ----- DEBT -----
     // ----- ---- ----- ---- -----
     
-    // SETTER: sets the player's new debt requirement
+    /**
+     * Sets the player's new debt requirement.
+     * 
+     * @param newDebtRequirement is the amount to set the debt to.
+     */
     public void setDebt(int newDebtRequirement) {
         this.debt = newDebtRequirement;
     }
     
-    // GETTER: returns the player's current outstanding debt
+    /**
+     * @return the player's current outstanding debt
+     */
     public int getDebt() {
         return debt;
     }
@@ -66,23 +84,31 @@ public class Player {
     // ----- INVENTORY ----- INVENTORY -----
     // ----- --------- ----- --------- -----
     
-    // SETTER: adds an item to the player's inventory
+    /**
+     * Adds an item to the player's inventory.
+     * 
+     * @param item to add to the player inventory.
+     */
     public void addItem(Item item) {
         inventory.add(item);
     }
     
-    // Clears the inventory. Useful for save/load.
+    /**
+     * Clear the player's inventory; useful for save/load
+     */
     public void clearInventory() {
         inventory.clear();
     }
     
-    // Sets the inventory to a whole new one. Pretty much only for save/load as well.
+    // Sets the inventory to a whole new one. Serves a purpose for save/load.
     public void setInventory(List<Item> newInv) {
         inventory.clear();
         inventory.addAll(newInv);
     }
     
-    // GETTER: returns the players inventory
+    /**
+     * @return a list of the player's current item inventory.
+     */
     public List<Item> getInventory() {
         return inventory;
     }
