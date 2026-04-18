@@ -108,8 +108,8 @@ public class GameDirector {
     }
     
     /**
-     * This function will handle what occurs when the user abandons (deletes)
-     * their save.
+     * This function handles the user pressing the Abandon Save button. It
+     * deletes their save.
      */
     public void onAbandonSave() {
         save.deleteSave();
@@ -118,7 +118,7 @@ public class GameDirector {
     // ----- RANDOM NUMBER GENERATOR CLASS INTERACTIONS -----
     
     /**
-     * GETTER FUNCTION
+     * Returns the current seed.
      *
      * @return the seed used by the random number generator.
      */
@@ -177,6 +177,11 @@ public class GameDirector {
         window.getSlotMachineGUI().refreshDisplay();
     }
     
+    /**
+     * Returns the generated SlotMachine object.
+     * 
+     * @return SlotMachine object slotMachine
+     */
     public SlotMachine getSlotMachine() {
         return slotMachine;
     }
@@ -186,16 +191,29 @@ public class GameDirector {
     // ----- PLAYER CLASS INTERACTIONS -----
     // ----- ------ ----- ------------ -----
     
-    
+    /**
+     * Returns the player's money.
+     * 
+     * @return the amount of money that the player can spend in the shop.
+     */
     public int getPlayerMoney() {
         return player.getMoney();
     }
     
-
+    /**
+     * Returns the amount of debt that the player has.
+     * 
+     * @return the player's current debt.
+     */
     public int getPlayerDebt() {
         return player.getDebt();
     }
     
+    /**
+     * Returns the player object.
+     * 
+     * @return player (instance of Player class being used this run)
+     */
     public Player getPlayer() {
         return player;
     }
@@ -204,18 +222,27 @@ public class GameDirector {
     // ----- ITEM SHOP CLASS INTERACTIONS -----
     // ----- ---- ---- ----- ------------ -----
     
+    /**
+     * Handles rerolling the shop if the player chooses that option in the UI.
+     */
     public void onRerollShop() {
         if (itemShop.rerollShop(player)) {
             window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
-            window.getMainMenuGUI().refreshDisplay();
+            window.getItemShopGUI().refreshDisplay();
         }
     }
     
+    /**
+     * Returns the current ItemShop instance.
+     * 
+     * @return itemShop instance of ItemShop class.
+     */
     public ItemShop getItemShop() {
         return itemShop;
     }
     
     /**
+     * Handles what happens if the player purchases an item.
      * 
      * @param itemIndex
      * @return 
