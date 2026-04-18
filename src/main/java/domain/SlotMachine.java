@@ -201,6 +201,7 @@ public class SlotMachine {
      */
     public int increaseBetByPercent(int playerMoney) {
         int increaseAmount = (int) Math.round(playerMoney * 0.05);
+        if (increaseAmount < 1){increaseAmount = 1; };
         int newBet = currentBet + increaseAmount;
         this.currentBet = validateBet(newBet, playerMoney);
         return currentBet;
@@ -214,6 +215,7 @@ public class SlotMachine {
      */
     public int decreaseBetByPercent(int playerMoney) {
         int decreaseAmount = (int) Math.round(playerMoney * 0.05);
+        if (decreaseAmount < 1){decreaseAmount = 1; };
         int newBet = currentBet - decreaseAmount;
         this.currentBet = validateBet(newBet, playerMoney);
         return currentBet;

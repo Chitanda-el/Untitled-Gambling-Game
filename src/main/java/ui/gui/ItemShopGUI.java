@@ -256,7 +256,7 @@ public class ItemShopGUI extends JPanel {
         card.setMaximumSize(new Dimension(200, 250));
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.YELLOW, 2),
-            BorderFactory.createEmptyBorder(100,10,10,10)
+            BorderFactory.createEmptyBorder(60,10,10,10)
         ));
         
         // Item image
@@ -281,7 +281,7 @@ public class ItemShopGUI extends JPanel {
         // Item description
         String desc = item.getDescription();
         JTextArea descLabel = new JTextArea(desc);
-        descLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+        descLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         descLabel.setForeground(Color.LIGHT_GRAY);
         descLabel.setBackground(new Color(80, 60, 100));
         descLabel.setLineWrap(true);
