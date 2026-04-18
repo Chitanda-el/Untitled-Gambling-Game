@@ -52,7 +52,8 @@ public class GameDirector {
     private SlotMachine slotMachine; // Reference to the SlotMachine object.
     private MainWindow  window;      // Reference to the MainWindow object.
     private ItemShop itemShop;
-    private SaveManager save;
+    private SaveManager save = new SaveManager();
+    private SaveData saveData = new SaveData();
     
     // Reference to the Player object.
     private Player player;
@@ -94,6 +95,14 @@ public class GameDirector {
      */
     public void onStartGame() {
         // Initialize game state and display
+        if (save.hasSave()) {
+            saveData = save.loadGame();
+            restoreFromSave(saveData);
+        }
+        else {
+            createSaveData(saveData);
+            save.saveGame(saveData);
+        }
         window.getSlotMachineGUI().refreshDisplay();
         window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
     }
@@ -218,6 +227,8 @@ public class GameDirector {
             window.getItemShopGUI().refreshDisplay();
             window.getSlotMachineGUI().refreshDisplay();  // This will refresh the pullout tab
             window.getSlotMachineGUI().refreshDisplay();
+            createSaveData(saveData);
+            save.saveGame(saveData);
             return true;
         }
         return false;
@@ -241,8 +252,7 @@ public class GameDirector {
     // ----- SAVE/LOAD ----- SAVE/LOAD ----- 
     // ----- --------- ----- --------- -----
     
-    public SaveData createSaveData() {
-        SaveData data = new SaveData();
+    public void createSaveData(SaveData data) {
 
         // Player
         data.money = player.getMoney();
@@ -258,8 +268,6 @@ public class GameDirector {
 
         // RNG
         data.rngSeed = getCurrentSeed();
-
-        return data;
     }
     
     public void restoreFromSave(SaveData data) {
