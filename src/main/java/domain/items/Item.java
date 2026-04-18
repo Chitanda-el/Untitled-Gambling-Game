@@ -1,4 +1,5 @@
 package domain.items;
+import java.io.Serializable;
 
 /**
  * Base class from which all purchasable items inherit.
@@ -9,7 +10,7 @@ package domain.items;
  * DESCRIPTION: A string that describes what the item does to the player.
  * COST: A base cost the player will pay for the item.
  */
-public abstract class Item {
+public abstract class Item implements Serializable {
     
     private final int ITEM_ID;        // int ID identifying the item.
     private final String NAME;        // Name of the item (display to user).

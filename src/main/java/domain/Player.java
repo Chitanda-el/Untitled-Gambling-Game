@@ -77,6 +77,12 @@ public class Player {
         inventory.clear();
     }
     
+    // Sets the inventory to a whole new one. Pretty much only for save/load as well.
+    public void setInventory(List<Item> newInv) {
+        inventory.clear();
+        inventory.addAll(newInv);
+    }
+    
     // GETTER: returns the players inventory
     public List<Item> getInventory() {
         return inventory;

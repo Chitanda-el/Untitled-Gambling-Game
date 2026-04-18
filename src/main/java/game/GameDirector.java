@@ -49,14 +49,14 @@ public class GameDirector {
     // enters a new seed.
     public RandomNumGenerator rng = new RandomNumGenerator(new Date().getTime());
     
-    private SlotMachine slotMachine; // Reference to the SlotMachine object.
+    private final SlotMachine slotMachine; // Reference to the SlotMachine object.
     private MainWindow  window;      // Reference to the MainWindow object.
-    private ItemShop itemShop;
-    private SaveManager save = new SaveManager();
+    private final ItemShop itemShop;
+    private final SaveManager save = new SaveManager();
     private SaveData saveData = new SaveData();
     
     // Reference to the Player object.
-    private Player player;
+    private final Player player;
     
     // grid contains the symbols to display on the slot machine in the GUI.
     SlotMachine.Symbols[][] grid;
@@ -147,6 +147,7 @@ public class GameDirector {
      * 2. Spins the slot machine.
      * 3. Updates the grid displayed.
      * 4. Updates the players money and Debt if they won.
+     * @param bet The bet the player has set.
      */
     public void onSpin(int bet) {
         if (bet <= player.getMoney() && bet >= 0) {
@@ -174,6 +175,8 @@ public class GameDirector {
             player.setDebt(newDebt);
         }
         
+        createSaveData(saveData);
+        save.saveGame(saveData);
         window.getSlotMachineGUI().refreshDisplay();
     }
     
@@ -197,7 +200,7 @@ public class GameDirector {
     }
     
     public Player getPlayer() {
-    return player;
+        return player;
     }
     
     // ----- ---- ---- ----- ------------ -----
@@ -258,7 +261,8 @@ public class GameDirector {
         data.money = player.getMoney();
         data.debt = player.getDebt();
 
-        data.inventoryItemIDs = new ArrayList<>();
+        data.inv = new ArrayList<>();
+        data.inv.addAll(player.getInventory());
         
         // Shop
         data.shopItemIDs = new ArrayList<>();
@@ -278,9 +282,7 @@ public class GameDirector {
         // Player
         player.setMoney(data.money);
         player.setDebt(data.debt);
-        for (int id : data.inventoryItemIDs) {
-            player.addItem(itemShop.createItem(id));
-        }
+        player.setInventory(data.inv);
         // RNG
         this.rng = new RandomNumGenerator(data.rngSeed);
         // Shop

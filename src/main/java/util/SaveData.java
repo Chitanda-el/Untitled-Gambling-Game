@@ -1,4 +1,5 @@
 package util;
+import domain.items.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class SaveData implements Serializable {
     // ----- PLAYER STATE -----
     public int money;
     public int debt;
-    public List<Integer> inventoryItemIDs;
+    public List<Item> inv;
 
     // Probably a good idea to put a round counter in somewhere.
     // public int currentRound;
