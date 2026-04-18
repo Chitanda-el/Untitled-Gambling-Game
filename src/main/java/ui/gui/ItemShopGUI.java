@@ -144,7 +144,7 @@ public class ItemShopGUI extends JPanel {
     }
     
     private void layoutComponents() {
-        moneyLabel.setBounds(1280 - 250, 20, 230, 40);
+        moneyLabel.setBounds(1280 - 250, 10, 230, 40);
         backButton.setBounds(30, 620, 350, 50);
         rerollButton.setBounds(1280 - 250, 620, 200, 50);
         scrollPane.setBounds(100, 80, 1080, 500);
@@ -252,9 +252,12 @@ public class ItemShopGUI extends JPanel {
     private JPanel createItemCard(Item item, int index) {
         JPanel card = new JPanel(new BorderLayout());
         card.setBackground(new Color(80, 60, 100));
-        card.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
         card.setPreferredSize(new Dimension(200, 250));
         card.setMaximumSize(new Dimension(200, 250));
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(Color.YELLOW, 2),
+            BorderFactory.createEmptyBorder(100,10,10,10)
+        ));
         
         // Item image
         ImageIcon itemIcon = loadItemImage(item, ITEM_IMAGE_SIZE, ITEM_IMAGE_SIZE);
@@ -273,12 +276,15 @@ public class ItemShopGUI extends JPanel {
         
         // Item description
         String desc = item.getDescription();
-        if (desc.length() > 40) {
-            desc = desc.substring(0, 37) + "...";
-        }
-        JLabel descLabel = new JLabel(desc, SwingConstants.CENTER);
+        JTextArea descLabel = new JTextArea(desc);
         descLabel.setFont(new Font("Arial", Font.PLAIN, 10));
         descLabel.setForeground(Color.LIGHT_GRAY);
+        descLabel.setBackground(new Color(80, 60, 100));
+        descLabel.setLineWrap(true);
+        descLabel.setWrapStyleWord(true);
+        descLabel.setEditable(false);
+        descLabel.setFocusable(false);
+        descLabel.setBorder(null);
         
         // BUY BUTTON: Attempts to purchase the item
         // Calls GameDirector.onPurchaseItem(index) which:

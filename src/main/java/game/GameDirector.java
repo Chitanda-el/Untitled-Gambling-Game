@@ -32,7 +32,7 @@ public class GameDirector {
     // ----- --------- ----- --------- ----- --------- ----- --------- -----
     
     // Starting shop money
-    private static final int STARTING_MONEY = 10;
+    private static final int STARTING_MONEY = 50;
     
     // Starting debt amount
     private static final int INITIAL_DEBT = 100;
@@ -143,7 +143,7 @@ public class GameDirector {
         if (bet <= player.getMoney() && bet >= 0) {
             
             // Subract bet amount from player's money.
-            player.addMoney(bet * -1);
+            //player.addMoney(bet * -1);
             
             // Generate grid
             grid = slotMachine.spin();
@@ -172,10 +172,6 @@ public class GameDirector {
         return slotMachine;
     }
     
-    // TEMPORARY FOR TESTING GUI TEMPORARY FOR TESTING GUI
-    public void onSpin() {
-        onSpin(5); // Temp testing while SlotMacineGUI is tested, will eventually be deprecated and slotMachineGUI will input a proper value based on the bet given.
-    }
         
     // ----- ------ ----- ------------ -----
     // ----- PLAYER CLASS INTERACTIONS -----

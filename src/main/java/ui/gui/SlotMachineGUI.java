@@ -205,19 +205,40 @@ public class SlotMachineGUI extends JPanel {
         betUpButton.setFont(new Font("Arial", Font.BOLD, 14));
         betUpButton.setBackground(new Color(0, 100, 0));
         betUpButton.setForeground(Color.WHITE);
-        betUpButton.addActionListener(e -> adjustBet(true));
+        betUpButton.addActionListener(e -> {
+            if (parent.getGameDirector() != null && parent.getGameDirector().getSlotMachine() != null) {
+                int playerMoney = parent.getGameDirector().getPlayerMoney();
+                int newBet = parent.getGameDirector().getSlotMachine().increaseBetByPercent(playerMoney);
+                currentBet = newBet;
+                updateBetDisplay();
+            }
+        });
         
         betDownButton = new JButton("-5%");
         betDownButton.setFont(new Font("Arial", Font.BOLD, 14));
         betDownButton.setBackground(new Color(100, 0, 0));
         betDownButton.setForeground(Color.WHITE);
-        betDownButton.addActionListener(e -> adjustBet(false));
+        betDownButton.addActionListener(e -> {
+            if (parent.getGameDirector() != null && parent.getGameDirector().getSlotMachine() != null) {
+                int playerMoney = parent.getGameDirector().getPlayerMoney();
+                int newBet = parent.getGameDirector().getSlotMachine().decreaseBetByPercent(playerMoney);
+                currentBet = newBet;
+                updateBetDisplay();
+            }
+        });
         
         allInButton = new JButton("ALL IN");
         allInButton.setFont(new Font("Arial", Font.BOLD, 14));
         allInButton.setBackground(new Color(150, 150, 0));
         allInButton.setForeground(Color.WHITE);
-        allInButton.addActionListener(e -> setAllInBet());
+        allInButton.addActionListener(e -> {
+            if (parent.getGameDirector() != null && parent.getGameDirector().getSlotMachine() != null) {
+                int playerMoney = parent.getGameDirector().getPlayerMoney();
+                int newBet = parent.getGameDirector().getSlotMachine().setAllInBet(playerMoney);
+                currentBet = newBet;
+                updateBetDisplay();
+            }
+        });
         
         inputBetButton = new JButton("Set");
         inputBetButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -278,55 +299,7 @@ public class SlotMachineGUI extends JPanel {
         // Items tab button - moved up 30 pixels (Y=40)
         pullTabButton.setBounds(10, 40, 100, 45);
     }
-    
-    /**
-     * Adjusts the current bet by 5% of playerMoney
-     */
-    private void adjustBet(boolean add) {
-        int playerMoney = parent.getGameDirector().getPlayerMoney();
-        int newBet = (int) Math.round(playerMoney * 0.05);
-        
-        
-        if (add) {
-            if (currentBet + newBet > playerMoney) {
-                currentBet = playerMoney;
-            }
-            else {
-                currentBet += newBet;
-            }
-        }
-        else {
-            if (currentBet - newBet < MIN_BET) {
-                currentBet = MIN_BET;
-            }
-            else {
-                currentBet -= newBet;
-            }
-        }
-        updateBetDisplay();
-    }
-    
-    /**
-     * Sets the bet to the player's entire available money
-     */
-    private void setAllInBet() {
-        if (parent.getGameDirector() != null) {
-            int playerMoney = parent.getGameDirector().getPlayerMoney();
-            currentBet = Math.max(playerMoney, MIN_BET);
-            updateBetDisplay();
-        } else {
-            String moneyText = moneyLabel.getText().replace("Money: $", "");
-            try {
-                int playerMoney = Integer.parseInt(moneyText);
-                currentBet = Math.max(playerMoney, MIN_BET);
-                updateBetDisplay();
-            } catch (NumberFormatException e) {
-                currentBet = DEFAULT_BET;
-                updateBetDisplay();
-            }
-        }
-    }
-    
+
     /**
      * Prompts the user to enter a custom bet amount
      */
@@ -485,7 +458,7 @@ public class SlotMachineGUI extends JPanel {
         itemPanel.add(imageLabel, BorderLayout.CENTER);
         
         // Add item name label below the image
-        JLabel nameLabel = new JLabel(truncateItemName(itemName, 15), SwingConstants.CENTER);
+        JLabel nameLabel = new JLabel(itemName, SwingConstants.CENTER);
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 10));
         nameLabel.setForeground(Color.WHITE);
         itemPanel.add(nameLabel, BorderLayout.SOUTH);
@@ -507,12 +480,6 @@ public class SlotMachineGUI extends JPanel {
         return emptyPanel;
     }
     
-    private String truncateItemName(String name, int maxLength) {
-        if (name.length() <= maxLength) {
-            return name;
-        }
-        return name.substring(0, maxLength - 3) + "...";
-    }
     
     public void updateSlotGrid(Symbols[][] grid) {
         if (grid == null) return;
