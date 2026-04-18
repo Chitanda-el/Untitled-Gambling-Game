@@ -39,7 +39,9 @@ public class SlotMachine {
     // SLOT MACHINE GRID
     private Symbols[][] grid = new Symbols[GRID_ROWS][GRID_COLUMNS];
     
-    // Possible symbols on the slot machine's grid.
+    /**
+     * Symbols that can appear on the slot machine's grid.
+     */
     public enum Symbols {
         DUCK, HEART, CHERRY, SEVEN, CLOVER
     }

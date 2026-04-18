@@ -10,9 +10,11 @@ import domain.items.PatternUnlock;
 public class MiddleColumnPatternUnlock extends PatternUnlock {
     
     private static final int ITEM_ID = 4;
-    private static final String NAME = "Collumn Photo";
+    private static final String NAME = "collumn Photo";
     private static final String DESCRIPTION =
-              "The middle column can now contain a winning pattern.";
+              "You spot this impressive Roman style column in the distance, "
+            + "it inspires you to verify whether the symbols in the center "
+            + "column match.";
     private static final int COST = 10;
     
     public MiddleColumnPatternUnlock() {

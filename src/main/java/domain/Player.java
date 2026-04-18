@@ -26,7 +26,6 @@ public class Player {
         this.inventory = new ArrayList<>();
     }
 
-
     // ----- -------- --- --------- ----- -------- --- --------- -----
     // ----- MUTATORS AND ACCESSORS ----- MUTATORS AND ACCESSORS ----- 
     // ----- -------- --- --------- ----- -------- --- --------- -----

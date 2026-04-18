@@ -152,9 +152,6 @@ public class GameDirector {
     public void onSpin(int bet) {
         if (bet <= player.getMoney() && bet >= 0) {
             
-            // Subract bet amount from player's money.
-            //player.addMoney(bet * -1);
-            
             // Generate grid
             grid = slotMachine.spin();
             
