@@ -3,7 +3,6 @@ package ui.gui;
 
 import domain.SlotMachine.Symbols;
 import domain.items.Item;
-import domain.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;

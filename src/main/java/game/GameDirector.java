@@ -6,6 +6,7 @@ import util.*;
 import java.util.Date;  // For if the user doesn't provide their own seed.
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 // Domain Depndencies
 import domain.*;
@@ -161,6 +162,7 @@ public class GameDirector {
             // If the player won, give them their winnings
             int payout = slotMachine.calculatePayout(grid, bet, player);
             player.addMoney(payout);
+            checkDeath();
         }
         
         // If the amount of money the player has exceeds the amount of debt
@@ -313,6 +315,58 @@ public class GameDirector {
         for (int id : data.shopItemIDs) {
             itemShop.addItem(itemShop.createItem(id));
         }
+    }
+    /**
+    * Checks if player has died (money <= 0) and handles death/reset
+    */
+    private void checkDeath() {
+        if (player.getMoney() <= 0) {
+            // Show death message
+            JOptionPane.showMessageDialog(window, 
+                "You've run out of money!\n" +
+                "The debt collectors have taken everything.\n" +
+                "All that remains... is the Cool Duck Slot Machine",
+                "GAME OVER", 
+                JOptionPane.PLAIN_MESSAGE);
+        
+            // Reset everything
+            resetGame();
+        
+            // Switch to main menu
+            window.switchTo(MainWindow.Screen.MAIN_MENU);
+        }
+    }
+
+    /**
+     * Resets the entire game state to default values
+     */
+    private void resetGame() {
+        // Reset Player
+        player.setMoney(STARTING_MONEY);
+        player.setDebt(INITIAL_DEBT);
+    
+        // Clear player inventory
+        player.clearInventory();
+    
+        // Reset shop price multiplier
+        itemShop.resetPurchaseMultiplier();
+    
+        // Refresh shop inventory with new random items
+        itemShop.refreshShop();
+    
+        // Reset slot machine bet
+        slotMachine.setCurrentBet(10);
+    
+        // Reset GUI displays
+        if (window != null) {
+            window.getSlotMachineGUI().setCurrentBet(10);
+            window.getSlotMachineGUI().resetSlots();
+            window.getSlotMachineGUI().refreshDisplay();
+            window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
+            window.getItemShopGUI().resetBuyButtons();
+            window.getItemShopGUI().refreshDisplay();
+        }
+   
     }
 }
 

@@ -156,7 +156,7 @@ public class ItemShop {
         int actualPrice = calculateItemPrice(item);
         
         // Check if player can afford
-        if (player.getMoney() < actualPrice) {
+        if (player.getMoney() <= actualPrice) {
             return false;
         }
         
