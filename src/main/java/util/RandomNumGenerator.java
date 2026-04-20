@@ -16,12 +16,22 @@ public class RandomNumGenerator {
     private final long seed;
     private final Random random;
     
+    /**
+     * Constructs a new RandomNumGenerator with the specified seed.
+     * 
+     * @param seed the seed for the random number generator
+     */
     public RandomNumGenerator(long seed) {
         this.seed = seed;
         this.random = new Random(seed);
     }
     
-	// wrappers for functions from random
+    /**
+     * Returns a random integer uniformly distributed in [0, bound).
+     * 
+     * @param bound the upper bound
+     * @return a random integer in the range [0, bound)
+     */
 	public int nextInt(int bound) {
         return random.nextInt(bound);
     }
@@ -30,7 +40,11 @@ public class RandomNumGenerator {
         return random.nextDouble();
     }
 	
-    // Accessor: returns the seed used
+    /**
+     * Returns the seed used to initialize the random number generator.
+     * 
+     * @return the seed used by the random number generator
+     */
     public long getSeed() {
         return seed;
     }

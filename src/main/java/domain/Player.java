@@ -54,6 +54,8 @@ public class Player {
     }
     
     /**
+     * Returns the amount of money that the player currently has.
+     * 
      * @return the amount of money that the player currently has.
      */
     public int getMoney() {
@@ -74,6 +76,8 @@ public class Player {
     }
     
     /**
+     * Returns the player's current outstanding debt requirement.
+     * 
      * @return the player's current outstanding debt
      */
     public int getDebt() {
@@ -101,12 +105,20 @@ public class Player {
     }
     
     // Sets the inventory to a whole new one. Serves a purpose for save/load.
+    /**
+     * Sets the inventory. This allows the player's inventory to be
+     * reloaded form a saved state.
+     * 
+     * @param newInv the list of items to include in the player's new inventory.
+     */
     public void setInventory(List<Item> newInv) {
         inventory.clear();
         inventory.addAll(newInv);
     }
     
     /**
+     * Returns a list of references to the player's current items.
+     * 
      * @return a list of the player's current item inventory.
      */
     public List<Item> getInventory() {

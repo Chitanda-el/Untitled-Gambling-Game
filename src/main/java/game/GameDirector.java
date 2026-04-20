@@ -45,9 +45,11 @@ public class GameDirector {
     // ----- DEPENDENCIES ----- DEPENDENCIES ----- DEPENDENCIES -----
     // ----- ------------ ----- ------------ ----- ------------ -----
     
-    // The RandomNumGenerator object is created using the current time as the
-    // seed by default. A new one is created that replaces it if the player
-    // enters a new seed.
+    /**
+     * The RandomNumGenerator object is created using the current time as the
+     * seed by default. A new one is created that replaces it if the player
+     * enters a new seed.
+    */
     public RandomNumGenerator rng = new RandomNumGenerator(new Date().getTime());
     
     private SlotMachine slotMachine; // Reference to the SlotMachine object.

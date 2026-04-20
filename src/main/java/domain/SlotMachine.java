@@ -104,6 +104,16 @@ public class SlotMachine {
      */
     public int calculatePayout(Symbols[][] grid, int bet, Player player) {
         int multiplier = evaluatePatterns(grid, player);
+        
+        // Double the win for each winning pattern after
+        // the second one in a single roll.
+        if (multiplier - 3 > 0) {
+            int tempMultiplier = multiplier;
+            for (int i = 0; i < multiplier - 3; ++i) {
+                tempMultiplier *= 2;
+            }
+            multiplier = tempMultiplier;
+        }
         return bet * multiplier;
     }
     
