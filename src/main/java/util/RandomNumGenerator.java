@@ -36,6 +36,11 @@ public class RandomNumGenerator {
         return random.nextInt(bound);
     }
 
+    /**
+     * Returns a random double uniformly distributed in the range [0.0, 1.0).
+     * 
+     * @return a random double in the range [0.0, 1.0)
+     */
     public double nextDouble() {
         return random.nextDouble();
     }
