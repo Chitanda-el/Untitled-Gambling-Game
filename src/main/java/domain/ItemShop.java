@@ -264,12 +264,14 @@ public class ItemShop {
         return currentStock.isEmpty();
     }
     
+    /**
+     * Removes all items from the shops inventory.
+     */
     public void clearStock() {
         currentStock.clear();
     }
     
     /**
-     * This is probably a really bad way to go about this. I do not care.
      * Creates an Item based on the ID passed into it.
      * @param id The ID of the desired item.
      * @return The created item.
@@ -294,7 +296,10 @@ public class ItemShop {
                 throw new IllegalArgumentException("Unknown item ID: " + id);
         }                
     }
-    
+    /**
+     * Adds a item to shops current inventory.
+     * @param i 
+     */
     public void addItem(Item i) {
         currentStock.add(i);
     }

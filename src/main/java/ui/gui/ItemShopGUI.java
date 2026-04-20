@@ -45,6 +45,10 @@ public class ItemShopGUI extends JPanel {
     private static final String ASSETS_PATH = System.getProperty("user.dir") + "/assets/";
     private static final int ITEM_IMAGE_SIZE = 100;
     
+    /**
+     * Constructor for Item Shop GUI.
+     * @param parent 
+     */
     public ItemShopGUI(MainWindow parent) {
         this.parent = parent;
         this.currentStock = new ArrayList<>();

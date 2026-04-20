@@ -50,6 +50,10 @@ public class SlotMachineGUI extends JPanel {
     private static final int PULLOUT_WIDTH = PULLOUT_COLUMNS * PULLOUT_CELL_SIZE + 20;
     private static final int PULLOUT_HEIGHT = PULLOUT_ROWS * PULLOUT_CELL_SIZE + 20;
     
+    /**
+     * Constructor for Slot Machine GUI.
+     * @param parent 
+     */
     public SlotMachineGUI(MainWindow parent) {
         this.parent = parent;
         this.symbolImages = new HashMap<>();
@@ -303,10 +307,19 @@ public class SlotMachineGUI extends JPanel {
         betLabel.setText("Bet: $" + currentBet);
     }
     
+    /**
+     * Gets current bet amount.
+     * @return 
+     */
     public int getCurrentBet() {
         return currentBet;
     }
     
+    /**
+     * Sets the current bet amount.
+     * Ensures bet amount is greater than the minimum.
+     * @param bet 
+     */
     public void setCurrentBet(int bet) {
         if (bet >= MIN_BET) {
             this.currentBet = bet;
@@ -450,6 +463,9 @@ public class SlotMachineGUI extends JPanel {
         }
     }
     
+    /**
+     * Clears all icons from slot machine.
+     */
     public void resetSlots() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -458,6 +474,9 @@ public class SlotMachineGUI extends JPanel {
         }
     }
     
+    /**
+     * Refreshes display to show updates.
+     */
     public void refreshDisplay() {
         if (parent.getGameDirector() != null) {
             moneyLabel.setText("Money: $" + parent.getGameDirector().getPlayerMoney());
@@ -482,17 +501,4 @@ public class SlotMachineGUI extends JPanel {
         }
     }
     
-    public void showWinNotification(int amount) {
-        JOptionPane.showMessageDialog(this, "You won $" + amount + "!");
-    }
-    
-    public void showLoseNotification() {
-        JOptionPane.showMessageDialog(this, "No win this spin. Better luck next time!");
-    }
-    
-    public void showInsufficientFundsMessage() {
-        JOptionPane.showMessageDialog(this, 
-            "Not enough money to spin!\nVisit the shop to see if you can purchase helpful items.",
-            "Insufficient Funds", JOptionPane.WARNING_MESSAGE);
-    }
 }

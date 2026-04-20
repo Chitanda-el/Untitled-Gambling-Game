@@ -36,11 +36,17 @@ public class MainWindow extends JFrame {
     
     private GameDirector gameDirector;
     
+    /**
+     * Creates class for GUI.
+     */
     public MainWindow() {
         initComponents();
         setupWindow();
     }
-    
+    /**
+     * Initializes GUI using the GameDirector.
+     * @param gameDirector 
+     */
     public MainWindow(GameDirector gameDirector) {
         this.gameDirector = gameDirector;
         initComponents();
@@ -99,26 +105,49 @@ public class MainWindow extends JFrame {
                 break;
         }
     }
-    
+    /**
+     * Sets GameDirector
+     * @param gameDirector 
+     */
     public void setGameDirector(GameDirector gameDirector) {
         this.gameDirector = gameDirector;
     }
     
+    /**
+     * Returns current GameDirector.
+     * @return 
+     */
     public GameDirector getGameDirector() {
         return gameDirector;
     }
     
+    /**
+     * Returns current instance of SlotMachineGUI.
+     * @return 
+     */
     public SlotMachineGUI getSlotMachineGUI() {
         return slotMachineGUI;
     }
     
+    /**
+     * Returns current instance of ItemShopGUI
+     * @return 
+     */
     public ItemShopGUI getItemShopGUI() {
         return itemShopGUI;
     }
     
+    /**
+     * Returns current instance of MainMenuGUI
+     * @return 
+     */
     public MainMenuGUI getMainMenuGUI() {
         return mainMenuGUI;
     }
     
+    /**
+     * Returns current instance of the Shop.
+     * @return 
+     */
     public ItemShop getShop() { return shop; }
 }

@@ -32,6 +32,10 @@ public class MainMenuGUI extends JPanel {
     // Path to assets folder (project root, above src/)
     private static final String ASSETS_PATH = System.getProperty("user.dir") + "/assets/";
     
+    /**
+     * Constructor for Main Menu GUI.
+     * @param parent 
+     */
     public MainMenuGUI(MainWindow parent) {
         this.parent = parent;
         initComponents();
@@ -182,6 +186,9 @@ public class MainMenuGUI extends JPanel {
         }
     }
     
+    /**
+     * Refreshes the display to update values.
+     */
     public void refreshDisplay() {
         // Main menu typically doesn't need dynamic refreshing
         // But this method exists for interface consistency
