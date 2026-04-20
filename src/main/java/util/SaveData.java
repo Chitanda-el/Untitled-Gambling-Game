@@ -9,18 +9,27 @@ import java.util.List;
 public class SaveData implements Serializable {
 
     // ----- PLAYER STATE -----
+    /**
+     * The player's current money.
+     */
     public int money;
+    /**
+     * The player's current debt.
+     */
     public int debt;
+    /**
+     * The player's current inventory.
+     */
     public List<Item> inv;
 
-    // Probably a good idea to put a round counter in somewhere.
-    // public int currentRound;
-
-    // The current stock of the shop.
+    /**
+     * The current stock of the shop.
+     */
     public List<Integer> shopItemIDs;
 
-    // The seed associated with the RNG.
+    /**
+     * The seed associated with the RNG.
+     */
     public long rngSeed;
 
-    // TODO: Implement number of rerolls/refreshes and cost of reroll.
 }

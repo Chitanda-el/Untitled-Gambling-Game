@@ -5,6 +5,10 @@ package game;
  * 
  */
 public class Main {
+    /**
+     * Initializes a run of the game.
+     * @param args Theoretically, the command line arguments that the game is run with.
+     */
     public static void main(String[] args) {
         GameDirector director = new GameDirector();
     }

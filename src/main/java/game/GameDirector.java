@@ -52,22 +52,48 @@ public class GameDirector {
     */
     public RandomNumGenerator rng = new RandomNumGenerator(new Date().getTime());
     
-    private SlotMachine slotMachine; // Reference to the SlotMachine object.
-    private MainWindow  window;      // Reference to the MainWindow object.
+    /**
+     * Reference to the SlotMachine object.
+     */
+    private SlotMachine slotMachine;
+    /**
+     * Reference to the MainWindow object.
+     */
+    private MainWindow  window;
+    /**
+     * The item shop used in the run.
+     */
     private  ItemShop itemShop;
+    /**
+     * The SaveManager mechanism by which data is stored and loaded.
+     */
     private final SaveManager save = new SaveManager();
+    /**
+     * A SaveData object used to contain the player's run status.
+     */
     private SaveData saveData = new SaveData();
     
-    // Reference to the Player object.
+    /**
+     * Reference to the Player object.
+     */
     private Player player;
     
-    // grid contains the symbols to display on the slot machine in the GUI.
+    /** 
+     * The grid contains the symbols to display on the slot machine in the GUI.
+     */
     SlotMachine.Symbols[][] grid;
     
     // ----- ------------ ----- ------------ ----- ------------ -----
     // ----- CONSTRUCTORS ----- CONSTRUCTORS ----- CONSTRUCTORS -----
     // ----- ------------ ----- ------------ ----- ------------ -----
     
+    /**
+     * The constructor for the GameDirector does the following:
+     * 1. Create a MainWindow object.
+     * 2. Create a SlotMachine object.
+     * 3. Create a Player object.
+     * 4. Initializes the ItemShop with all possible items.
+     */
     public GameDirector(){
         
         // Create the MainWindow object
@@ -129,18 +155,13 @@ public class GameDirector {
         return rng.getSeed();
     }
     
+    
     /**
      * If the user enters a new seed convert it to a long and generate a new
      * RandomNumGenerator object in place of the old one.
      * 
      * @param newSeed string or number that is converted to a long for seeding.
      */
-/**
- * If the user enters a new seed convert it to a long and generate a new
- * RandomNumGenerator object in place of the old one.
- * 
- * @param newSeed string or number that is converted to a long for seeding.
- */
     public void setCustomSeed(String newSeed) {
         try {
             long seed = Long.parseLong(newSeed);
@@ -279,7 +300,7 @@ public class GameDirector {
     /**
      * Handles what happens if the player purchases an item.
      * 
-     * @param itemIndex
+     * @param itemIndex The ID of the item purchased.
      * @return 
      */
     public boolean onPurchaseItem(int itemIndex) {
@@ -314,6 +335,10 @@ public class GameDirector {
     // ----- SAVE/LOAD ----- SAVE/LOAD ----- 
     // ----- --------- ----- --------- -----
     
+    /**
+     * Stores all the pertinent data of a run in a SaveData object.
+     * @param data The SaveData object it is saved to.
+     */
     public void createSaveData(SaveData data) {
 
         // Player
@@ -333,6 +358,10 @@ public class GameDirector {
         data.rngSeed = getCurrentSeed();
     }
     
+    /**
+     * Restores a game state from a previous save.
+     * @param data The SaveData object to load from.
+     */
     public void restoreFromSave(SaveData data) {
         
         player.clearInventory();
