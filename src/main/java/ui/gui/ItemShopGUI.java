@@ -2,7 +2,6 @@
 package ui.gui;
 
 import domain.items.Item;
-import domain.ItemShop;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
