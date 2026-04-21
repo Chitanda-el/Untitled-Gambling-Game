@@ -6,7 +6,13 @@ Untitled Gambling Game is a roguelike gambling game in the spirit of Clover Pit 
 
 Untitled Gambling Game requires JDK 25 and the latest version of [Maven](https://maven.apache.org/).
 
-To compile the program, a batch file has been provided, but if you wish to compile manually, you may perform the following command:
+To compile the program, a PowerShell file has been provided. To run it, perform the following commands:
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser Unrestricted
+.\compile.ps1
+```
+
+If you wish to compile manually, you may perform the following command:
 
 ```bash
 mvn clean package
