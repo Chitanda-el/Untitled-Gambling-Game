@@ -142,6 +142,7 @@ public class GameDirector {
      */
     public void onAbandonSave() {
         save.deleteSave();
+        resetGame();
     }
     
     // ----- RANDOM NUMBER GENERATOR CLASS INTERACTIONS -----
@@ -222,8 +223,9 @@ public class GameDirector {
         // If the amount of money the player has exceeds the amount of debt
         // they have, then subtract the current debt from their current money
         // and multiply the amount of debt owed by STANDARD_DEBT_SCALE.
-        if (player.getMoney() >= player.getDebt()) {
+        if (player.getMoney() > player.getDebt()) {
             player.addMoney((player.getDebt())*(-1));
+            player.addMoney(10);
             int newDebt = player.getDebt()*STANDARD_DEBT_SCALE;
             player.setDebt(newDebt);
         }
@@ -405,7 +407,7 @@ public class GameDirector {
     private void resetGame() {
         // Reset Player
         player.setMoney(STARTING_MONEY);
-        player.setDebt(INITIAL_DEBT);
+        player.setDebt(100);
     
         // Clear player inventory
         player.clearInventory();
