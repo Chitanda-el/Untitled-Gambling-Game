@@ -147,7 +147,7 @@ public class ItemShopGUI extends JPanel {
     }
     
     private void layoutComponents() {
-        moneyLabel.setBounds(1280 - 250, 10, 230, 40);
+        moneyLabel.setBounds(1280 - 250, 10, 250, 40);
         backButton.setBounds(30, 620, 350, 50);
         rerollButton.setBounds(1280 - 250, 620, 200, 50);
         scrollPane.setBounds(100, 80, 1080, 500);

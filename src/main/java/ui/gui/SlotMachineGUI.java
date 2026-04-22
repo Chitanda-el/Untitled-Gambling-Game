@@ -250,8 +250,8 @@ public class SlotMachineGUI extends JPanel {
         int centerX = (1280 - 400) / 2;
         
         slotGridPanel.setBounds(centerX, 100, 400, 400);
-        moneyLabel.setBounds(1280 - 220, 20, 200, 40);
-        debtLabel.setBounds(1280 - 220, 70, 200, 40);
+        moneyLabel.setBounds(1280 - 240, 20, 250, 40);
+        debtLabel.setBounds(1280 - 240, 70, 250, 40);
         betLabel.setBounds(centerX + 140, 520, 120, 40);
         betDownButton.setBounds(centerX + 40, 520, 80, 40);
         betUpButton.setBounds(centerX + 290, 520, 80, 40);
