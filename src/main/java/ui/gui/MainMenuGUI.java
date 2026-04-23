@@ -104,7 +104,12 @@ public class MainMenuGUI extends JPanel {
                 String.valueOf(parent.getGameDirector().getCurrentSeed()) : "default";
             String newSeed = JOptionPane.showInputDialog(this,
                 "Enter a custom seed (number):", currentSeed);
-            if (newSeed != null && !newSeed.trim().isEmpty() && parent.getGameDirector() != null) {
+            if(newSeed.matches(".*[a-zA-Z].*")) {
+                JOptionPane.showMessageDialog(this, 
+            "Invalid seed! Please enter a valid number.",
+            "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            if (!newSeed.trim().isEmpty() && parent.getGameDirector() != null) {
                 parent.getGameDirector().setCustomSeed(newSeed.trim());
                 JOptionPane.showMessageDialog(this, "Seed set to: " + newSeed.trim());
             }

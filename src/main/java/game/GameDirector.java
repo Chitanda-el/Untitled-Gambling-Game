@@ -164,31 +164,24 @@ public class GameDirector {
      * @param newSeed string or number that is converted to a long for seeding.
      */
     public void setCustomSeed(String newSeed) {
-        try {
-            long seed = Long.parseLong(newSeed);
+        long seed = Long.parseLong(newSeed);
         
-            // Create new RNG with the seed
-            this.rng = new RandomNumGenerator(seed);
+        // Create new RNG with the seed
+        this.rng = new RandomNumGenerator(seed);
         
-            // Recreate domain objects with the new RNG
-            this.slotMachine = new SlotMachine(this.rng);
+        // Recreate domain objects with the new RNG
+        this.slotMachine = new SlotMachine(this.rng);
         
-            // Recreate ItemShop with new RNG (preserving items)
-            List<Item> allItems = createAllItemsList();
-            this.itemShop = new ItemShop(this.rng, allItems);
+        // Recreate ItemShop with new RNG (preserving items)
+        List<Item> allItems = createAllItemsList();
+        this.itemShop = new ItemShop(this.rng, allItems);
         
-            // Refresh GUI displays
-            if (window != null) {
-                window.getSlotMachineGUI().resetSlots();
-                window.getSlotMachineGUI().refreshDisplay();
-                window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
-                window.getItemShopGUI().resetBuyButtons();
-            }
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(window, 
-            "Invalid seed! Please enter a valid number.",
-            "Error", JOptionPane.ERROR_MESSAGE);
+        // Refresh GUI displays
+        if (window != null) {
+            window.getSlotMachineGUI().resetSlots();
+            window.getSlotMachineGUI().refreshDisplay();
+            window.getItemShopGUI().updateShopStock(itemShop.getCurrentStock());
+            window.getItemShopGUI().resetBuyButtons();
         }
     }
     
